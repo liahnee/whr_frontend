@@ -1,5 +1,6 @@
 import React from 'react';
-import LoggedIn from '../HOC/SignedIn'
+import LoggedIn from '../HOC/SignedIn';
+import { Menu, Link, Icon } from 'react-semantic-ui';
 
 const Schedule = () => {
     return (
