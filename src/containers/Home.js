@@ -1,27 +1,29 @@
 import React from 'react';
-import { Form, Input, Button } from 'semantic-ui-react';
-import SignUp from '../componentsHome/SignUp';
+import { Form, Input, Button, Label } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import SignedOutHOC from '../HOC/SignedOut';
+import { Link } from 'react-router-dom';
+import Dashboard from './Dashboard';
+import Login from './Login';
 
-const Home = props => {
-    return (
-        <div className='home'>
-            <Form error>
-                <Form.Field inline>
-                    <label>DR.</label>
-                    <Input placeholder='USERNAME' /> 
-                </Form.Field>
-                <Form.Input label='password' placeholder='PASSWORD' /> 
-                {/* <Message
-                    error
-                    header='Action Forbidden'
-                    content='You can only sign up for an account once with a given e-mail address.'
-                /> */}
-                <Button>Submit</Button>
-            </Form>
-            <Button onClick={props.toggleSignUp}>Sign Up</Button>
-            <SignUp open={props.signUp} toggle={props.toggleSignUp} />
-        </div>
-    )
+class Home extends React.Component {
+
+
+    render() {
+        return (
+            <React.Fragment>
+                {this.props.loggedin?<Dashboard />:<Login toggleSignUp={this.toggleSignUp}signUp={this.state.signUp} /> }
+            </React.Fragment>
+        )
+    }
 };
 
-export default Home;
+const sToP = state => {
+    return {loggedin: state.loggedin}
+}
+
+const dToP = dispatch => ({
+    login: data => dispatch({ type: "LOGIN", payload:data})
+})
+
+export default connect(sToP, dToP)(Home);

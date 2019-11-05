@@ -1,3 +1,8 @@
+html, body {
+  height: 100vh;
+  width: 100%;
+  margin: 0;
+}
 .App {
   text-align: center;
 }
@@ -19,4 +24,116 @@
 
 .App-link {
   color: #09d3ac;
+}
+
+.home {
+  height: 100vh;
+  width: 100%;
+}
+
+.signin {
+  background-image: url('assets/bg3.1.4.jpg');
+  background-size: cover;
+  height: 100vh;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  text-align: center;
+}
+
+#signinForm {
+  background:black;
+}
+
+#signinFirstField {
+margin-top: 45vh !important;
+margin-left: 24vw;
+}
+
+.signin label {
+  color:white !important;
+}
+
+.signinUsername {
+  min-width: 35%;
+}
+
+.ui.input.signinUsername input {
+  background: #ffffff00;
+  /* height: 25vh; */
+  width: 50vw !important;
+  border: none;
+  font-size: 50px !important; 
+  color: rgba(255, 255, 255, 0.808);
+  text-align: left;
+  /* padding: 0 0; */
+}
+
+.ui.input.signinUsername input::placeholder,
+.ui.input.signinUsername input:focus::placeholder{
+  text-align: left;
+  color:rgba(255, 255, 255, 0.733);
+}
+
+.ui.input.signinUsername input:focus {
+  background: #ffffff00;
+  font-size: 50px !important; 
+  color: white;
+  text-align: left;
+}
+
+.ui.label.signinDr {
+  font-size: 60px !important; 
+  position: relative;
+  /* padding-bottom: 5px;
+  padding-right: 5px;
+  padding-left: 5px; */
+  margin-top:8vh !important;
+  padding: 5px 5px;
+  top: 20px;
+  margin-right: 10px !important;
+}
+
+.signinPassword input {
+  background: #ffffff00 !important;
+  min-width: 150px !important;
+  text-align: center !important;
+  border-bottom-color: rgba(0, 0, 0, 0.363) !important;
+  border-top-color: rgba(255, 255, 255, 0) !important;
+  border-left-color: rgba(255, 255, 255, 0) !important;
+  border-right-color: rgba(255, 255, 255, 0) !important;
+}
+
+.ui.input.signinPassword input::placeholder,
+.ui.input.signinPassword input:focus::placeholder{
+  color:rgba(255, 255, 255, 0.952);
+}
+
+.ui.input.signinPassword input:focus {
+  background: #ffffff00;
+  color: white;
+  text-align: center;
+  border-bottom-color: rgba(0, 0, 0, 0.363);
+  border-top-color: rgba(255, 255, 255, 0);
+  border-left-color: rgba(255, 255, 255, 0);
+  border-right-color: rgba(255, 255, 255, 0);
+}
+
+.signinPW {
+  /* font-size: 30px !important;  */
+  top: 10%; 
+  display: inline;
+  position: sticky;
+  margin-right: 10px !important;
+}
+
+#signinBtn {
+  margin-bottom: 2vh;
+}
+
+#signupBtn {
+  margin-top: 2vh;
+}
+
+.ui.dimmer {
+  background-color: rgba(0, 0, 0, 0.623);
 }

@@ -3,7 +3,6 @@ export default function managePatients(state = {
     waitList: [],
     inRoom: ""
 }, action) {
-    console.log(state)
     switch (action.type) {
         case 'ADD_TO_WAITLIST':
             return {...state,

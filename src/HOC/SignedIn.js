@@ -1,13 +1,21 @@
-import React from 'react'
+import React from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from "react-router-dom";
 
 const LoggedInHOC = (TrueComponent)=> {
     return class LoggedInHOC extends React.Component {
-        loggedIn = () => {
-            return localStorage.getItem('token') ? true : false;
-        }
+//         loggedIn = () => {
+//             return localStorage.getItem('token') ? true : false;
+//         }
         render() {
-            return this.loggedIn()?<TrueComponent {...this.props} />: null
+            return this.props.loggedin?<TrueComponent {...this.props} />: <Redirect to="/login"/>
         }
     }
 }
-export default LoggedInHOC
+
+const sToP = state => {
+    return {loggedin: state.loggedin}
+}
+
+connect(sToP)(LoggedInHOC);
+export default LoggedInHOC;

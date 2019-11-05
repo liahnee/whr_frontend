@@ -3,7 +3,7 @@ import LoggedIn from '../HOC/SignedIn'
 
 const Profile = () => {
     return (
-        nil
+        <div></div>
     )
 }
 

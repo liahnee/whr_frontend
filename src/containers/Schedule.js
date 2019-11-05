@@ -3,7 +3,7 @@ import LoggedIn from '../HOC/SignedIn'
 
 const Schedule = () => {
     return (
-        nil
+        <div></div>
     )
 }
 
