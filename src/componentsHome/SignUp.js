@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, Form, Header, Input, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 class SignUp extends React.Component {
 
@@ -51,6 +52,7 @@ class SignUp extends React.Component {
             password: '',
             name: ''
          }))
+        .then(() => this.props.history.push('/'))
     }
 
     handleUsername = (e) => {
@@ -113,5 +115,5 @@ const dToP = dispatch => ({
     login: data => dispatch({ type: "LOGIN", payload:data})
 })
 
-export default connect(sToP, dToP)(SignUp)
+export default withRouter(connect(sToP, dToP)(SignUp));
 ///.then only first time after sign up, show the navbar s
