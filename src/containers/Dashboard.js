@@ -2,6 +2,8 @@ import React from 'react';
 // import { Form, Input, Button, Label } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
+import SignOut from '../componentsHome/SignOut';
+
 class Home extends React.Component {
 
 
@@ -12,6 +14,7 @@ class Home extends React.Component {
                     <li>List of patients: click => render current problem </li>
                     <li>problem:click => list of charts: click => chart preview</li>
                     <li>commenting or making an action on chart can be done on 'charts' page</li>
+                    <SignOut />
                 </div>
             </React.Fragment>
         )
@@ -19,7 +22,7 @@ class Home extends React.Component {
 };
 
 const sToP = state => {
-    return {loggedin: state.loggedin}
+    return {loggedin: state.manageLogin.loggedin}
 }
 
 const dToP = dispatch => ({

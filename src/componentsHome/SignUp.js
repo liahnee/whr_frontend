@@ -7,7 +7,8 @@ class SignUp extends React.Component {
     state = {
         username: '',
         password: '',
-        name: ''
+        name: '',
+        signUp: false
     }
 
     signUp = async (e) => {
@@ -41,6 +42,9 @@ class SignUp extends React.Component {
             console.log(data)
             this.props.login(data)
             localStorage.setItem('token', data.jwt)
+            localStorage.setItem('username', data.user.username)
+            localStorage.setItem('name', data.user.name)
+            localStorage.setItem('id', data.user.id)
         })
         .then(this.setState({
             username: '',
@@ -102,7 +106,7 @@ class SignUp extends React.Component {
 }
 
 const sToP = state => {
-    return {loggedin: state.loggedin}
+    return {loggedin: state.manageLogin.loggedin}
 }
 
 const dToP = dispatch => ({

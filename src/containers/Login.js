@@ -1,17 +1,16 @@
 import React from 'react';
 import { Form, Input, Button, Label } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-
+import { Redirect, withRouter } from 'react-router-dom';
 import SignUp from '../componentsHome/SignUp';
 import Password from '../componentsHome/PasswordInput';
-import SignedOutHOC from '../HOC/SignedOut';
 
 class Signin extends React.Component {
 
     state = {
         username: '',
         password: '',
-        passwordHidden:true
+        loggedin: false
     }
 
     handleUsername = (e) => {
@@ -39,21 +38,33 @@ class Signin extends React.Component {
         })
         .catch((e) => {console.log(e)})
         .then(resp => resp.json())
-        .then(data => {
+        .then(async data => {
             // console.log(data)
-            this.props.login(data)
+            await this.props.login(data)
             localStorage.setItem('token', data.jwt)
+            localStorage.setItem('username', data.user.username)
+            localStorage.setItem('name', data.user.name)
+            localStorage.setItem('id', data.user.id)
         })
         .then(() => this.setState({
             username: '',
-            password: ''
-         }));
-         this.props.history.push("/")
+            password: '',
+            loggedin: true
+         }))
+    };
+
+
+    toggleSignUp = () => {
+        this.setState({
+        signUp: !this.state.signUp
+        })
     }
+
 
     render() {
         return (
             <React.Fragment>
+                {this.state.loggedin? <Redirect to='/'/>: null}
                 <div className="signin"> 
                     <Form error id="signinForm" onSubmit={this.handleSubmit}>
                         <Form.Field inline id="signinFirstField" >
@@ -70,8 +81,8 @@ class Signin extends React.Component {
                         /> */}
                         <Button id="signinBtn">Submit</Button>
                     </Form>
-                    <Button id="signupBtn" onClick={this.props.toggleSignUp}>Sign Up</Button>
-                    <SignUp open={this.props.signUp} toggle={this.props.toggleSignUp} />
+                    <Button id="signupBtn" onClick={this.toggleSignUp}>Sign Up</Button>
+                    <SignUp open={this.state.signUp} toggle={this.toggleSignUp} />
                 </div>
             </React.Fragment>
         )
@@ -79,11 +90,11 @@ class Signin extends React.Component {
 };
 
 const sToP = state => {
-    return {loggedin: state.loggedin}
+    return {loggedin: state.manageLogin.loggedin}
 }
 
 const dToP = dispatch => ({
     login: data => dispatch({ type: "LOGIN", payload:data})
 })
 
-export default SignedOutHOC(connect(sToP, dToP)(Signin));
+export default withRouter(connect(sToP, dToP)(Signin));

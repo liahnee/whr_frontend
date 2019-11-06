@@ -8,7 +8,7 @@ const LoggedInHOC = (TrueComponent)=> {
 //             return localStorage.getItem('token') ? true : false;
 //         }
         render() {
-            return this.props.loggedin?<TrueComponent {...this.props} />: <Redirect to="/login"/>
+            return this.props.loggedin?<TrueComponent {...this.props} />: <Redirect to="/"/>
         }
     }
 }

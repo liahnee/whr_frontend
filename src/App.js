@@ -14,8 +14,7 @@ import Dashboard from './containers/Dashboard';
 
 class App extends React.Component {
   state = { 
-    navBar: false,
-    signUp: false
+    navBar: false
   }
 
   toggleNav = () => {
@@ -24,12 +23,20 @@ class App extends React.Component {
     })
   }
 
-  toggleSignUp = () => {
-    this.setState({
-      signUp: !this.state.signUp
-    })
+  logged() {
+    if (localStorage.token){
+      const data = {user: {
+        username: localStorage.username, 
+        name: localStorage.name,
+        id: localStorage.id
+      }}
+      this.props.login(data)
+      return <Dashboard />
+    }
+    else {
+      return <Redirect to='login'/>
+    }
   }
-
 
 
   render() {
@@ -70,7 +77,13 @@ class App extends React.Component {
           <Sidebar.Pusher dimmed={this.state.navBar}>
             <NavBarOpener toggle={this.toggleNav}/>  
             <Route exact path="/">
-              {this.props.loggedin? <Dashboard /> : <Login toggleSignUp={this.toggleSignUp} signUp={this.state.signUp}/>}
+              {this.props.loggedin? <Dashboard />:this.logged()}
+            </Route>
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/dashboard">
+              <Dashboard />
             </Route>
             <Route exact path="/profile">
               <Profile />
@@ -89,11 +102,11 @@ class App extends React.Component {
 }
 
 const sToP = state => {
-  return {loggedin: state.loggedin}
+  return {loggedin: state.manageLogin.loggedin}
 }
 
-// const dToP = dispatch => ({
-//   login: data => dispatch({ type: "LOGIN", payload:data})
-// })
+const dToP = dispatch => ({
+  login: data => dispatch({ type: "LOGIN", payload:data})
+})
 
-export default connect(sToP)(App);
+export default connect(sToP, dToP)(App);
