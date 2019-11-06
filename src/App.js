@@ -10,6 +10,7 @@ import Profile from './containers/Profile';
 import Schedule from './containers/Schedule';
 import Chart from './containers/Chart';
 import Dashboard from './containers/Dashboard';
+import NewPatientForm from './containers/NewPatientForm';
 
 
 class App extends React.Component {
@@ -51,6 +52,7 @@ class App extends React.Component {
           {this.props.loggedin?(
           <Sidebar
           as={Menu}
+          tabular
           animation="overlay"
           icon="labeled"
           inverted
@@ -71,11 +73,15 @@ class App extends React.Component {
               <Icon name="clipboard outline" />
               Chart
             </Menu.Item>
+            <Menu.Item as={Link} to="/new_patient">
+              <Icon name="add user" />
+              New Pt
+            </Menu.Item>
             <Menu.Item as={Link} to="/profile">
               <Icon name="user md" />
               Profile
             </Menu.Item>
-            <Menu.Item onClick={() => this.handleLogout()}>
+            <Menu.Item onClick={() => this.handleLogout()} position="right">
               <Icon name="sign out" />
               Sign-out
             </Menu.Item>
@@ -100,6 +106,9 @@ class App extends React.Component {
             </Route>
             <Route exact path="/chart">
               <Chart />
+            </Route> 
+            <Route exact path="/new_patient">
+              <NewPatientForm />
             </Route> 
           </Sidebar.Pusher>
         </Sidebar.Pushable>

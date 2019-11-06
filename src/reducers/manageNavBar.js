@@ -3,7 +3,6 @@ export default function manageNavBar(state = {
 }, action) {
     switch (action.type) {
         case 'TOGGLE':
-            console.log(state.show)
             return { 
                 show: !state.show
             }

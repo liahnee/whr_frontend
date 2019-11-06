@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Form, Header, Input, Button } from 'semantic-ui-react';
+import { Modal, Form, Header, Input, Button, Message } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
@@ -23,9 +23,18 @@ class SignUp extends React.Component {
             },
             body: JSON.stringify({user:{ username, password, name }})
         })
-        .then(resp => resp.json())
-        .then(data => console.log(data))
-        .then(() => this.signin())   
+        .then(e => {
+            if (e.status !== 202) {
+                this.setState({
+                    error: true
+                })
+                
+            }
+            else {
+                return e.json().then(() => this.signin())   
+            }           
+        })
+        
     }
 
     signin = () => {
@@ -91,10 +100,11 @@ class SignUp extends React.Component {
                             <label>Name:</label>
                             <Input placeholder='name' onChange={this.handleName}/><br/>
                         </Form.Field>
-                        {/* <Message error
+                        {this.state.error? <Message className='loginError'
+                            error
                             header='Action Forbidden'
-                            content=
-                        /> */}
+                            content='Incorrect Username and/or Password.'
+                        /> : null }
                     </Form>
                 </Modal.Content>
                 <Modal.Actions>

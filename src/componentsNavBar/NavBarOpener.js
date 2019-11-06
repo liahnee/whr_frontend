@@ -1,12 +1,12 @@
 import React from 'react';
 // import LoggedIn from '../HOC/SignedIn';
-import { Button } from 'semantic-ui-react';
+import { Button, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 const NavBarOpener = props => {
     return (
         <React.Fragment>
-            <Button color='black' onClick={props.toggle} id='navBarOpener'>NavBar</Button>
+            <Button circular icon color='black' onClick={props.toggle} id='navBarOpener'><Icon size='large' name='medkit'/></Button>
         </React.Fragment>
     )
 }

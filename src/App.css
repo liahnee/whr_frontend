@@ -7,7 +7,7 @@ html, body {
   text-align: center;
 }
 
-.App-logo {
+/* .App-logo {
   height: 40vmin;
 }
 
@@ -24,12 +24,11 @@ html, body {
 
 .App-link {
   color: #09d3ac;
-}
+} */
 
-.home {
-  z-index: 1;
+.home, .dashboard, .chart, .schedule, .profile, .newPatientForm {
   height: 100vh;
-  width: 100%;
+  width: 100vw;
 }
 
 .signin {
@@ -92,6 +91,9 @@ margin-left: 24vw;
   padding: 5px 5px;
   top: 20px;
   margin-right: 10px !important;
+  background: transparent;
+  color:white;
+  font-weight: 400;
 }
 
 .signinPassword input {
@@ -139,12 +141,51 @@ margin-left: 24vw;
 }
 
 .ui.dimmer {
-  background-color: rgba(0, 0, 0, 0.623);
+ background-color: rgba(0, 0, 0, 0.623);
 }
 
+/* #navBarOpener {
+  position: fixed;
+  bottom: 5vh;
+  left: 5vh;
+} */
+
+.barGrid {
+  display:grid;
+  grid-template-areas: 
+  'a'
+  'b'
+  'c'
+  'd'
+  'e'
+  'f'
+  'g';
+  gap: 1vw;
+  max-height: 42vw;
+  max-width: 5vw;
+  /* min-height: 42vw;
+  min-width: 5vw; */
+  position: fixed;
+  bottom: 5vh;
+  left: 5vh;
+  text-align: center;
+}
+
+
+#navBarOpener {
+  grid-area: g;
+  max-height: 5vw;
+  max-width: 5vw;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0;
+  margin-top: auto;
+  position: relative;
+}
+
+
+
 .dashboard {
-  height: 100vh;
-  width: 100%;
   background-image: url('./assets/pill1.02.jpg');
   background-size: cover;
   transition: 1s;
@@ -197,13 +238,30 @@ margin-left: 24vw;
   background-image: url(./assets/db1.1.12.jpg);
 } */
 
-#navBarOpener {
-  position: fixed;
-  bottom: 5vh;
-  left: 5vh;
+
+.profile {
+  background-image: url('assets/2b.jpg');
+  background-size: cover;
+  height: 100vh;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  text-align: center;
+}
+
+.schedule {
+  background-image: url('assets/2s.jpg');
+  background-size: cover;
+  height: 100vh;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  text-align: center;
 }
 
 .chart {
+  background-image: url('assets/cb.jpg');
+  background-size: cover;
   height: 100vh;
-  width: 100vw;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  text-align: center;
 }

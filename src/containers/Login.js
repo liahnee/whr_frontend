@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Label } from 'semantic-ui-react';
+import { Form, Input, Button, Label, Message } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 import SignUp from '../componentsHome/SignUp';
@@ -10,7 +10,8 @@ class Signin extends React.Component {
     state = {
         username: '',
         password: '',
-        loggedin: false
+        loggedin: false,
+        error: false
     }
 
     handleUsername = (e) => {
@@ -36,25 +37,35 @@ class Signin extends React.Component {
             },
             body: JSON.stringify({ user: { username, password }})
         })
-        .catch((e) => {console.log(e)})
-        .then(resp => resp.json())
-        .then(async data => {
-            // console.log(data)
-            await this.props.login(data)
-            localStorage.setItem('token', data.jwt)
-            localStorage.setItem('username', data.user.username)
-            localStorage.setItem('name', data.user.name)
-            localStorage.setItem('id', data.user.id)
+        .then(e => {
+            if (e.status !== 202) {
+                this.setState({
+                    error: true
+                })
+                
+            }
+            else {
+                return e.json().then(async data => {
+                    // console.log(data)
+                    await this.props.login(data)
+                    localStorage.setItem('token', data.jwt)
+                    localStorage.setItem('username', data.user.username)
+                    localStorage.setItem('name', data.user.name)
+                    localStorage.setItem('id', data.user.id)
+                })
+                .then(() => this.setState({
+                    username: '',
+                    password: '',
+                    loggedin: true
+                 }))
+            }           
         })
-        .then(() => this.setState({
-            username: '',
-            password: '',
-            loggedin: true
-         }))
+        
     };
 
 
-    toggleSignUp = () => {
+    toggleSignUp = (e) => {
+        e.preventDefault()
         this.setState({
         signUp: !this.state.signUp
         })
@@ -68,20 +79,21 @@ class Signin extends React.Component {
                 <div className="signin"> 
                     <Form error id="signinForm" onSubmit={this.handleSubmit}>
                         <Form.Field inline id="signinFirstField" >
-                            <Label className="signinDr">DR.</Label>
+                            <Label className="signinDr">Dr.</Label>
                             <Input transparent placeholder='   USERNAME' className="signinUsername" onChange={this.handleUsername.bind(this)}/>
                         </Form.Field>
                         <Form.Field inline >
                             <Password value={this.state.password} onChange={this.handlePassword.bind(this)}/> 
                         </Form.Field>
-                        {/* <Message
+                        <Button basic inverted color='blue' id="signinBtn" style={{border:"none"}}> Enter </Button>
+                        <Button basic inverted color='olive' id="signupBtn" onClick={(e) => this.toggleSignUp(e)}>New Account</Button>
+                        {this.state.error? <Message className='loginError'
                             error
                             header='Action Forbidden'
-                            content='You can only sign up for an account once with a given e-mail address.'
-                        /> */}
-                        <Button basic inverted color='blue' id="signinBtn" style={{border:"none"}}> Enter </Button>
+                            content='Incorrect Username and/or Password.'
+                        /> : null }
                     </Form>
-                    <Button basic inverted color='olive' id="signupBtn" onClick={this.toggleSignUp}>New</Button>
+
                     <SignUp open={this.state.signUp} toggle={this.toggleSignUp} />
                 </div>
             </React.Fragment>

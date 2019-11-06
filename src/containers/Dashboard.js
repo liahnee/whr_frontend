@@ -52,7 +52,10 @@ class Home extends React.Component {
                     <Button circular icon basic color='teal' inverted>
                         <Icon size='huge' name='hospital outline' />
                     </Button> */}
-                    <NavBarOpener />  
+                    <div className='barGrid'>
+                        <NavBarOpener />  
+                    </div>
+                    
                 </div>
             </React.Fragment>
         )

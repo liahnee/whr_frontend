@@ -1,19 +1,29 @@
 import React from 'react';
-// import LoggedIn from '../HOC/SignedIn'
+import { connect } from 'react-redux';
 import NavBarOpener from '../componentsNavBar/NavBarOpener';
+import LoggedInHOC from '../HOC/SignedIn';
 
 const Chart = () => {
     return (
         <React.Fragment>
-            <div className="chart">
+            <div className="newPatientForm">
                 <p>this is a chart page.
                 i need: HPI, ROS, PE, A/P sections
                 need chief complaint/problem 
                 </p>
-                <NavBarOpener />  
+                <div className='barGrid'>
+                    <NavBarOpener />  
+                </div>
             </div>
         </React.Fragment>
     )
 }
+const sToP = state => {
+    return {loggedin: state.manageLogin.loggedin}
+}
 
-export default (Chart);
+const dToP = dispatch => ({
+    login: data => dispatch({ type: "LOGIN", payload:data})
+})
+
+export default connect(sToP, dToP)(LoggedInHOC(Chart));
