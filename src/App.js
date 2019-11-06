@@ -13,15 +13,6 @@ import Dashboard from './containers/Dashboard';
 
 
 class App extends React.Component {
-  state = { 
-    navBar: false
-  }
-
-  toggleNav = () => {
-    this.setState({
-      navBar: !this.state.navBar
-    })
-  }
 
   logged() {
     if (localStorage.token){
@@ -38,19 +29,34 @@ class App extends React.Component {
     }
   }
 
+  handleLogout = () => {
+    this.props.toggle();
+    localStorage.clear();
+    this.props.logout();
+    // console.log(this.props.show)
+  }
+
+  signedNav = () => {
+    return (
+      <React.Fragment>
+        
+      </React.Fragment>
+    )
+  }
 
   render() {
     return (
       <Router>
         <Sidebar.Pushable>
+          {this.props.loggedin?(
           <Sidebar
           as={Menu}
           animation="overlay"
           icon="labeled"
           inverted
-          onHide={() => this.toggleNav()}
+          onHide={() => this.props.toggle()}
           direction="top"
-          visible={this.state.navBar}
+          visible={this.props.show}
           width="very thin"
           >
             <Menu.Item as={Link} to="/">
@@ -58,24 +64,25 @@ class App extends React.Component {
               Home
             </Menu.Item>
             <Menu.Item as={Link} to="/schedule">
-              <Icon name="heart outline" />
+              <Icon name="calendar alternate outline" />
               Schedule
             </Menu.Item>
             <Menu.Item as={Link} to="/chart">
-              <Icon name="chart area" />
+              <Icon name="clipboard outline" />
               Chart
             </Menu.Item>
             <Menu.Item as={Link} to="/profile">
-              <Icon name="user outline" />
+              <Icon name="user md" />
               Profile
             </Menu.Item>
-            <Menu.Item onClick={() => this.logOut()}>
+            <Menu.Item onClick={() => this.handleLogout()}>
               <Icon name="sign out" />
               Sign-out
             </Menu.Item>
           </Sidebar>
-          <Sidebar.Pusher dimmed={this.state.navBar}>
-            <NavBarOpener toggle={this.toggleNav}/>  
+          ):( null)}
+          <Sidebar.Pusher dimmed={this.props.show}>
+            {/* <NavBarOpener />   */}
             <Route exact path="/">
               {this.props.loggedin? <Dashboard />:this.logged()}
             </Route>
@@ -102,11 +109,16 @@ class App extends React.Component {
 }
 
 const sToP = state => {
-  return {loggedin: state.manageLogin.loggedin}
+  return {
+    loggedin: state.manageLogin.loggedin,
+    show: state.manageNavBar.show
+  }
 }
 
 const dToP = dispatch => ({
-  login: data => dispatch({ type: "LOGIN", payload:data})
+  login: data => dispatch({ type: "LOGIN", payload:data}),
+  logout: () => dispatch({ type:"LOGOUT" }),
+  toggle: () => dispatch({ type: "TOGGLE"})
 })
 
 export default connect(sToP, dToP)(App);

@@ -69,7 +69,7 @@ class Signin extends React.Component {
                     <Form error id="signinForm" onSubmit={this.handleSubmit}>
                         <Form.Field inline id="signinFirstField" >
                             <Label className="signinDr">DR.</Label>
-                            <Input transparent placeholder='USERNAME' className="signinUsername" onChange={this.handleUsername.bind(this)}/>
+                            <Input transparent placeholder='   USERNAME' className="signinUsername" onChange={this.handleUsername.bind(this)}/>
                         </Form.Field>
                         <Form.Field inline >
                             <Password value={this.state.password} onChange={this.handlePassword.bind(this)}/> 
@@ -79,9 +79,9 @@ class Signin extends React.Component {
                             header='Action Forbidden'
                             content='You can only sign up for an account once with a given e-mail address.'
                         /> */}
-                        <Button id="signinBtn">Submit</Button>
+                        <Button basic inverted color='blue' id="signinBtn" style={{border:"none"}}> Enter </Button>
                     </Form>
-                    <Button id="signupBtn" onClick={this.toggleSignUp}>Sign Up</Button>
+                    <Button basic inverted color='olive' id="signupBtn" onClick={this.toggleSignUp}>New</Button>
                     <SignUp open={this.state.signUp} toggle={this.toggleSignUp} />
                 </div>
             </React.Fragment>

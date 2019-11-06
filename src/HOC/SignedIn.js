@@ -14,8 +14,10 @@ const LoggedInHOC = (TrueComponent)=> {
 }
 
 const sToP = state => {
-    return {loggedin: state.loggedin}
+    console.log(state.manageLogin.loggedin)
+    return {loggedin: state.manageLogin.loggedin}
 }
 
-connect(sToP)(LoggedInHOC);
-export default LoggedInHOC;
+;
+// connect(sToP)
+export default (LoggedInHOC);

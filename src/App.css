@@ -27,6 +27,7 @@ html, body {
 }
 
 .home {
+  z-index: 1;
   height: 100vh;
   width: 100%;
 }
@@ -126,14 +127,83 @@ margin-left: 24vw;
   margin-right: 10px !important;
 }
 
-#signinBtn {
+#signinBtn.ui.inverted.blue.basic.button {
   margin-bottom: 2vh;
+  z-index: 0;
+  border: none !important;
 }
 
 #signupBtn {
+
   margin-top: 2vh;
 }
 
 .ui.dimmer {
   background-color: rgba(0, 0, 0, 0.623);
+}
+
+.dashboard {
+  height: 100vh;
+  width: 100%;
+  background-image: url('./assets/pill1.02.jpg');
+  background-size: cover;
+  transition: 1s;
+}
+
+#patientList {
+  height: 30vh;
+  width: 15vw;
+  position: fixed;
+  top: 8vh;
+  right: 5vw;
+  border-radius: 50%;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+#examRoom {
+  width: 32vh;
+  height: 18vh;
+  position: fixed;
+  top: 40vh;
+  left:18vw;
+  border-radius: 50%;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+#board {
+  width: 40vh;
+  height: 20vh;
+  position: fixed;
+  right: 5vw;
+  bottom: 5vh;
+  border-radius: 50%;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+#examRoom:focus, #board:focus, #patientList:focus{
+  outline: transparent;
+}
+/* 
+.ui.inverted.blue.button.stethoscope {
+  position: fixed !important;
+  top: 40vh !important;
+  left: 35vw !important;
+}
+
+.ui.inverted.teal.basic.button.stethoscope:hover {
+  background-image: url(./assets/db1.1.12.jpg);
+} */
+
+#navBarOpener {
+  position: fixed;
+  bottom: 5vh;
+  left: 5vh;
+}
+
+.chart {
+  height: 100vh;
+  width: 100vw;
 }

@@ -2,7 +2,8 @@ export default function manageNavBar(state = {
     show: false
 }, action) {
     switch (action.type) {
-        case 'Toggle':
+        case 'TOGGLE':
+            console.log(state.show)
             return { 
                 show: !state.show
             }
