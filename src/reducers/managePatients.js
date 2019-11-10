@@ -24,6 +24,10 @@ export default function managePatients(state = {
                 allPatients: state.allPatients.concat(action.payload),
                 inRoom: state.inRoom.filter(patient => patient.id !== action.payload.id),
             };
+        case 'ADD_ALL_PATIENTS':
+            return {...state,
+                allPatients: action.payload.patients
+            }
         default:
             return state;
     }

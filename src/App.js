@@ -5,12 +5,12 @@ import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom
 import { connect } from 'react-redux';
 
 import Login from './containers/Login';
-import NavBarOpener from './componentsNavBar/NavBarOpener';
 import Profile from './containers/Profile';
 import Schedule from './containers/Schedule';
 import Chart from './containers/Chart';
 import Dashboard from './containers/Dashboard';
 import NewPatientForm from './containers/NewPatientForm';
+import Home from './containers/Home';
 
 
 class App extends React.Component {
@@ -62,6 +62,10 @@ class App extends React.Component {
           width="very thin"
           >
             <Menu.Item as={Link} to="/">
+              <Icon name="gamepad" />
+              Fun Exp
+            </Menu.Item>
+            <Menu.Item as={Link} to="/home">
               <Icon name="home" />
               Home
             </Menu.Item>
@@ -91,6 +95,9 @@ class App extends React.Component {
             {/* <NavBarOpener />   */}
             <Route exact path="/">
               {this.props.loggedin? <Dashboard />:this.logged()}
+            </Route>
+            <Route exact path="/home">
+              <Home />
             </Route>
             <Route exact path="/login">
               <Login />

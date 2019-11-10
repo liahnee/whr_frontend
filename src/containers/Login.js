@@ -42,11 +42,9 @@ class Signin extends React.Component {
                 this.setState({
                     error: true
                 })
-                
             }
             else {
                 return e.json().then(async data => {
-                    // console.log(data)
                     await this.props.login(data)
                     localStorage.setItem('token', data.jwt)
                     localStorage.setItem('username', data.user.username)

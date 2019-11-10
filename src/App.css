@@ -1,7 +1,8 @@
 html, body {
-  height: 100vh;
-  width: 100%;
+  /* height: 100vh;
+  width: 100%; */
   margin: 0;
+  overflow:scroll;
 }
 .App {
   text-align: center;
@@ -29,6 +30,7 @@ html, body {
 .home, .dashboard, .chart, .schedule, .profile, .newPatientForm {
   height: 100vh;
   width: 100vw;
+  overflow: scroll;
 }
 
 .signin {
@@ -238,9 +240,17 @@ margin-left: 24vw;
   background-image: url(./assets/db1.1.12.jpg);
 } */
 
+.homePG {
+  background-image: url('assets/w.jpg');
+  background-size: cover;
+  height: 100vh;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  text-align: center;
+}
 
 .profile {
-  background-image: url('assets/2b.jpg');
+  background-image: url('assets/w.jpg');
   background-size: cover;
   height: 100vh;
   background-repeat: no-repeat;
@@ -249,7 +259,7 @@ margin-left: 24vw;
 }
 
 .schedule {
-  background-image: url('assets/2s.jpg');
+  background-image: url('assets/w.jpg');
   background-size: cover;
   height: 100vh;
   background-repeat: no-repeat;
@@ -258,10 +268,103 @@ margin-left: 24vw;
 }
 
 .chart {
-  background-image: url('assets/cb.jpg');
+  background-image: url('assets/w.jpg');
   background-size: cover;
   height: 100vh;
   background-repeat: no-repeat;
   overflow: hidden;
   text-align: center;
+}
+
+.newPatientForm {
+  background-image: url('assets/w.jpg');
+  background-size: cover;
+  height: 100vh;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  text-align: center;
+}
+
+.chart .ui.form textarea{
+  min-width: 36vw;
+  min-height: 34vh;
+}
+
+.chartgrid {
+  display: grid;
+  grid-template-areas: 
+  "a b"
+  "c d";
+  height: 80vh;
+  width: 78vw;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:5vh;
+  margin-bottom:auto;
+  padding: 5px 5px;
+  background: rgba(255, 255, 255, 0.459);
+}
+
+.chart .ui.fluid.dropdown {
+  width: 36vw;
+}
+
+.signoff {
+  width: 100px;
+  height:40px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  bottom: -10vh;
+}
+
+.homePG {
+  color: white;
+}
+
+.homeCharts {
+  margin-left:auto;
+  margin-right:auto;
+  margin-top: 10vh;
+  width: 80vw;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-areas: 
+  "a b";
+}
+
+.homeCharts .-btn {
+  color:white !important;
+  font-size: 12px;
+}
+
+.homeCharts .-pageJump input {
+  width: 40px !important;
+  background: rgba(255, 255, 255, 0.493);
+  font-size: 12px;
+}
+
+.homeCharts .-pagination select {
+  color:white;
+  background: rgba(255, 255, 255, 0);
+  height: 30px;
+  font-size: 12px;
+}
+
+.homeCharts .-center {
+  min-width: 60%;
+}
+
+.homePatientList {
+  grid-area: a;
+  min-width: 35vw;
+  height:70vh;
+}
+
+.homeChartList {
+  grid-area: b;
+  min-width: 50vw;
+  height: 70vh;
 }

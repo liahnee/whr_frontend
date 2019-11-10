@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Form, Header, Input, Button, Message } from 'semantic-ui-react';
+import { Modal, Form, Header, Input, Button, Message, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
@@ -9,7 +9,8 @@ class SignUp extends React.Component {
         username: '',
         password: '',
         name: '',
-        signUp: false
+        showPassword: 'password'
+        // signUp: false
     }
 
     signUp = async (e) => {
@@ -23,15 +24,15 @@ class SignUp extends React.Component {
             },
             body: JSON.stringify({user:{ username, password, name }})
         })
-        .then(e => {
-            if (e.status !== 202) {
+        .then(resp => {
+            console.log(resp)
+            if (!resp.ok) {
                 this.setState({
                     error: true
                 })
-                
             }
             else {
-                return e.json().then(() => this.signin())   
+                return (resp.json(), this.signin()) 
             }           
         })
         
@@ -82,6 +83,26 @@ class SignUp extends React.Component {
         })
     }
 
+    passwordInput = () => {
+        return this.state.showPassword? <input /> : <input type='password' />
+    }
+
+    showPassword = () => {
+        console.log('icon clicked')
+        switch(this.state.showPassword){
+            case 'password':
+                return this.setState({
+            showPassword: 'text'
+        })
+            case 'text':
+                return this.setState({
+                    showPassword: 'password'
+                })
+                default:
+                    return null
+            }
+    }
+
     render() {
         return (
             <Modal dimmer={true} size='small' open={this.props.open} onClose={this.props.toggle} closeIcon id="signup">
@@ -93,8 +114,8 @@ class SignUp extends React.Component {
                             <Input placeholder='username' onChange={this.handleUsername}/>
                         </Form.Field>
                         <Form.Field inline>
-                            <label>Password:</label>
-                            <Input placeholder='password' onChange={this.handlePassword}/>
+                            <Input icon='lock' iconPosition='left' type={this.state.showPassword} placeholder='password' onChange={this.handlePassword}/>
+                            <Icon name='eye' onClick={this.showPassword}/>
                         </Form.Field>
                         <Form.Field inline>
                             <label>Name:</label>

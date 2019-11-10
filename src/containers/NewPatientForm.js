@@ -1,30 +1,28 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import NavBarOpener from '../componentsNavBar/NavBarOpener';
 import LoggedInHOC from '../HOC/SignedIn';
-import { Form, Dropdown, Checkbox, Input, Button, Modal, Image, Header, List } from 'semantic-ui-react';
+import { Redirect } from 'react-router-dom';
+import { Form, Dropdown, Checkbox, Input, Button, Modal, Image, List, Divider, Message } from 'semantic-ui-react';
 
 
 class NewPatientForm extends React.Component {
 
     state = {
-        first_name: '',
-        last_name: '',
-        gender: '',
-        sex: '',
-        age: '',
-        allergies: [],
-        drug_allergies: [],
-        past_medical_history: [],
-        currently_pregnant: false,
-        experience_in_pregnancy: false,
-        last_menstruation: ''
-    };
-
-    currentDate = () => {
-        const today = new Date()
-        return `${today.getDate()}-${today.getMonth()}-${today.getFullYear()}`
+        // first_name: '',
+        // last_name: '',
+        // gender: '',
+        // sex: '',
+        // age: '',
+        // allergies: [],
+        // drug_allergies: [],
+        // past_medical_history: [],
+        // currently_pregnant: false,
+        // experience_in_pregnancy: false,
+        // last_menstruation: '',
+        // personality: '',
+        // lifestyle: '',
+        // finance:'',
     };
 
     female = () => {
@@ -51,9 +49,9 @@ class NewPatientForm extends React.Component {
         const male = ['XY', 'XXY', 'XYY', 'OTHER'];
         if (male.includes(this.state.sex)) {
             this.setState({
-                currently_pregnant: 'na',
-                experience_in_pregnancy: 'na',
-                last_menstruation: 'na'
+                currently_pregnant: false,
+                experience_in_pregnancy: false,
+                last_menstruation: null
             })
         };
     };
@@ -82,7 +80,7 @@ class NewPatientForm extends React.Component {
                 )
             case 'age':
                 return this.setState({
-                    age: value
+                    age: Number.parseInt(value)
                 })
             case 'allergies':
                 return this.setState({
@@ -108,6 +106,18 @@ class NewPatientForm extends React.Component {
                 return this.setState({
                     last_menstruation: value
                 })
+            case 'personality':
+                return this.setState({
+                    personality: value
+                })
+            case 'lifestyle':
+                return this.setState({
+                    lifestyle: value
+                })
+            case 'finance':
+                return this.setState({
+                    finance: value
+                })
             default:
                 return null;
         };
@@ -115,7 +125,31 @@ class NewPatientForm extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
-        return null
+        const user_id = this.props.id;
+        const { first_name, last_name, gender, sex, age, allergies, drug_allergies, past_medical_history, currently_pregnant, experience_in_pregnancy, last_menstruation, personality, lifestyle, finance } = this.state;
+        fetch('http://localhost:3000/api/v1/single_player_patients',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Authorization': 'Bearer ' + localStorage.token
+            },
+            body: JSON.stringify( { single_player_patient: { first_name, last_name, gender, sex, age, currently_pregnant, experience_in_pregnancy, last_menstruation, personality, lifestyle, finance, user_id } })
+        })
+        .then(resp => {
+            console.log(resp)
+            if (!resp.ok) {
+                this.setState({
+                    error: true,
+                    error_msg: resp.json()
+                })
+            }
+            else {
+                return resp.json()
+            }           
+        }).then( () => {
+            return <Redirect to='/' />
+        })
     }
 
     render() {
@@ -134,29 +168,48 @@ class NewPatientForm extends React.Component {
             { key: 'o', text: 'OTHER', value: 'OTHER' }
         ]
 
-        const tempAllergies =[
+        const tempAllergies = [
             { key: 'dairy', text: 'Dairy', value: 'dairy' },
             { key: 'sun', text: 'Sun', value: 'sun' },
             { key: 'nuts', text: 'Nuts', value: 'nuts' }
         ]
 
-        const tempMedical =[
+        const tempMedical = [
             { key: 'asthma', text: 'asthma', value: 'asthma' },
             { key: 'diabetes', text: 'diabetes', value: 'diabetes' },
             { key: 'seizures', text: 'seizures', value: 'seizures' }
         ]
 
-        const tempDrug =[
+        const tempDrug = [
             { key: 'penicillin', text: 'penicillin', value: 'penicillin' },
             { key: 'sulfa dugs', text: 'sulfa dugs', value: 'sulfa dugs' },
             { key: 'amoxicillin', text: 'amoxicillin', value: 'amoxicillin' }
+        ]
+
+        const personality = [
+            { key: 'cooperative', text: 'cooperative', value: 'cooperative' },
+            { key: 'moderate', text: 'moderately cooperative', value: 'moderately_cooperative' },
+            { key: 'non-cooperative', text: 'non-cooperative', value: 'non-cooperative' }
+        ]
+
+        const lifestyle = [
+            { key: 'busy', text: 'busy', value: 'busy' },
+            { key: 'irregular', text: 'irregular', value: 'irregular' },
+            { key: 'balanced', text: 'balanced', value: 'balanced' },
+            { key: 'flexible', text: 'flexible', value: 'flexible' }
+        ]
+
+        const finance = [
+            { key: 'poor', text: 'poor', value: 'poor' },
+            { key: 'okay', text: 'okay', value: 'okay' },
+            { key: 'good', text: 'good', value: 'good' }
         ]
 
         return (
             <React.Fragment>
                 <div className="newPatientForm">
                     <div className='newPatientFormSection'>
-                        <Form onSubmit={this.handleSubmit}>
+                        <Form error onSubmit={this.handleSubmit}>
                             <Form.Group widths='equal'>
                                 <Form.Input fluid name='first_name' label='First name' placeholder='First name' onChange={(e,d) => this.handleChange(e, d)}/>
                                 <Form.Input fluid name='last_name' label='Last name' placeholder='Last name' onChange={(e,d) => this.handleChange(e, d)}/>
@@ -217,6 +270,40 @@ class NewPatientForm extends React.Component {
                                     onChange={(e,d) => this.handleChange(e, d)}
                                 />
                             </span>
+                            <Divider/>
+                            <span> Personality
+                                <Dropdown
+                                    name='personality'
+                                    fluid
+                                    selection
+                                    simple
+                                    item
+                                    options={personality}
+                                    onChange={(e,d) => this.handleChange(e, d)}
+                                />
+                            </span>
+                            <span> Lifestyle
+                                <Dropdown
+                                    name='lifestyle'
+                                    fluid
+                                    selection
+                                    simple
+                                    item
+                                    options={lifestyle}
+                                    onChange={(e,d) => this.handleChange(e, d)}
+                                />
+                            </span>
+                            <span> Finance
+                                <Dropdown
+                                    name='finance'
+                                    fluid
+                                    selection
+                                    simple
+                                    item
+                                    options={finance}
+                                    onChange={(e,d) => this.handleChange(e, d)}
+                                />
+                            </span>
                             
                         </Form> 
                         <Modal size='small' trigger={<Button>Confirm</Button>}>
@@ -231,12 +318,19 @@ class NewPatientForm extends React.Component {
                                         <List.Item icon='times' content={this.state.allergies} />
                                         <List.Item icon='pills' content={this.state.drug_allergies} />
                                         <List.Item icon='band aid' content={this.state.past_medical_history} />
+                                        <List.Item icon='pills' content={this.state.personality} />
+                                        <List.Item icon='pills' content={this.state.lifestyle} />
+                                        <List.Item icon='pills' content={this.state.finance} />
                                     </List>
                                 </Modal.Description>
-                                
+                                {this.state.error? <Message className='newPatientError'
+                                    error
+                                    header='Action Forbidden'
+                                    content='Must fill in all forms.'
+                                /> : null }
                             </Modal.Content>
                             <Modal.Actions>
-                                <Button>Create</Button>
+                                <Button onClick={this.handleSubmit}>Create</Button>
                             </Modal.Actions>
                         </Modal>
                     </div>
@@ -249,7 +343,7 @@ class NewPatientForm extends React.Component {
     }
 }
 const sToP = state => {
-    return {loggedin: state.manageLogin.loggedin}
+    return {loggedin: state.manageLogin.loggedin, id: state.manageLogin.id}
 }
 
 const dToP = dispatch => ({

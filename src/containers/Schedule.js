@@ -5,7 +5,9 @@ import LoggedInHOC from '../HOC/SignedIn';
 const Schedule = () => {
     return (
         <div className="schedule">
-            <NavBarOpener />  
+            <div className='barGrid'>
+                <NavBarOpener />  
+            </div>
         </div>
     )
 }
