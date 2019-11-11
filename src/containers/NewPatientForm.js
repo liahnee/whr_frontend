@@ -126,7 +126,10 @@ class NewPatientForm extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault()
         const user_id = this.props.id;
-        const { first_name, last_name, gender, sex, age, allergies, drug_allergies, past_medical_history, currently_pregnant, experience_in_pregnancy, last_menstruation, personality, lifestyle, finance } = this.state;
+        const { first_name, last_name, gender, sex, age, 
+            // allergies, drug_allergies, past_medical_history, 
+            currently_pregnant, experience_in_pregnancy, last_menstruation, personality, lifestyle, finance } = this.state;
+
         fetch('http://localhost:3000/api/v1/single_player_patients',{
             method: 'POST',
             headers: {

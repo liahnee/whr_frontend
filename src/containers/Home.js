@@ -10,10 +10,11 @@ const url = 'http://localhost:3000/api/v1/';
 class Home extends React.Component {
 
     state = {
-        patients: [{name: 'patient1'}],
-        charts: [{chief_complaint: 'fever', last_visit:'11-4-2019', recovery_rate: '0%'}],
+        patients: [{name: 'patient1', id: 1}, {name: 'patient2', id: 2}, {name: 'patient3', id: 3}],
         selectedPatient: {},
-        patientModal: false,
+        problems: [{chief_complaint: 'fever', last_visit:'11-1-2019', recovery_rate: '60%'}],
+        patientAllCharts: [],
+        charts: [{diagnosis: 'Influenza', visited: '11-1-2019', recovery_rate: '60%'}, {diagnosis: 'Influenza', visited: '10-30-2019', recovery_rate: '50%'}, {diagnosis: 'Influenza', visited: '10-28-2019', recovery_rate: '0%'}],
         selectedChart: {},
         chartModal: false
     }
@@ -43,11 +44,109 @@ class Home extends React.Component {
 
     mapCharts = () => {
         const charts = this.state.charts.map(chart => {
-            return {chief_complaint: chart.chief_complaint, last_visit: chart.last_visit, recovery_rate: chart.recovery_rate}
+            return {diagnosis: chart.diagnosis, visited: chart.visited, recovery_rate: chart.recovery_rate}
         })
         return charts;
     };
 
+    onRowClick = (state, rowInfo, column, instance) => {
+        return {
+            onClick: (e, handleOriginal) => {
+                // console.log('A Td Element was clicked!')
+                // console.log('state:', state)
+                // console.log('it produced this event:', e)
+                // console.log('It was in this column:', column)
+                // console.log('It was in this row:', rowInfo)
+                // console.log('It was in this table instance:', instance)
+
+                if (handleOriginal) {
+                    // console.log("clicked for diff function")
+                }
+            }
+        }
+    }
+
+    onPatientClick = (state, rowInfo, column, instance) => {
+
+
+        return {
+            onClick: (e, handleOriginal) => {
+                // console.log('A Td Element was clicked!')
+                // console.log('state:', state)
+                // console.log('it produced this event:', e)
+                // console.log('It was in this column:', column)
+                // console.log('It was in this row:', rowInfo)
+                // console.log('It was in this row:', rowInfo.original)
+                // console.log('It was in this row:', rowInfo.original.id)
+
+                // console.log('It was in this table instance:', instance)
+
+                if (handleOriginal) {
+                    this.last_visits(rowInfo);
+                }
+            }
+        }
+    }
+    year = (date) => {
+        console.log(date)
+        return date.slice(6);
+    }
+    
+    month = (date) => {
+        return date.slice(4,6);
+    }
+    
+    day = (date) => {
+        return date.slice(0,3);
+    }
+    
+    chartToProb = (chart) => {
+        return { diagnosis: chart.diagnosis, last_visit: chart.visited, recovery_rate: chart.recovery_rate }
+    }
+
+    checkList = (list, diagnosis) => {
+        return list.filter(obj => obj.diagnosis === diagnosis)
+
+    }
+    
+    last_visits = (rowInfo) => {
+        console.log('Patient clicked!')
+        const patientCharts = charts.filter(chart => chart.patient_id === rowInfo.original.id );
+        // const problems = [...new Set(patientCharts.map(chart => chart.diagnosis))];
+    
+        const list = [];
+    
+        patientCharts.map(chart => {
+            const diagnosis = chart.diagnosis;
+            const prev = this.checkList(list, diagnosis)
+            console.log(list)
+            console.log(prev)
+            if(prev.length !== 0) {
+                if(this.year(chart.visited) > this.year(prev.last_visit)) {
+                    list.push(this.chartToProb(chart));
+                } else if (this.year(chart.visited) === this.year(prev.last_visit)) {
+                    if(this.month(chart.visited) > this.month(prev.last_visit)) {
+                        list.push(this.chartToProb(chart));
+                    } else if (this.month(chart.visited) > this.month(prev.last_visit)) {
+                        if(this.day(chart.visited) > this.day(prev.last_visit)) {
+                            list.push(this.chartToProb(chart));
+                        }
+                    } 
+                } 
+           } else {
+                list.push(this.chartToProb(chart));
+           }
+           return chart
+        })
+    
+        console.log("list:", list)
+        this.setState({
+            selectedPatient: rowInfo.original,
+            patientAllCharts: [...patientCharts],
+            problems: [list]
+        })
+    
+    }
 
     render() {
         const patientColumns =  [{
@@ -66,21 +165,30 @@ class Home extends React.Component {
             accessor: 'recovery_rate'
         }]
 
-        const allPatients = this.props.allPatients
-        const statePatients = this.state.patients
+        const chartColumns = [{
+            Header: 'Diagnosis',
+            accessor: 'diagnosis'
+        }, {
+            Header: 'Date',
+            accessor: 'visited'
+        }, {
+            Header: 'Recovery Rate',
+            accessor: 'recovery_rate'
+        }]
+
+        // const allPatients = this.props.allPatients
+        // const statePatients = this.state.patients
         return (
             <React.Fragment>
                 <div className='homePG'>
                     <div className='homeCharts'>
-                        <ReactTable className='homePatientList' data={this.state.patients} columns={patientColumns} defaultPageSize={10}  showPagination={false}/>
-                        <ReactTable className='homeChartList' resolveData={this.mapCharts} columns={detailColumns} defaultPageSize={10} SubComponent={ row => {
-                            return (
-                                <div> what is this
-                                <Modal></Modal>
-                                </div>
-                            )
-                        }}/>
+                        <ReactTable className='homePatientList' data={this.state.patients} columns={patientColumns} defaultPageSize={10}  showPagination={false} getTdProps={this.onPatientClick}/>
+                        <ReactTable className='homeProblemList' data={this.state.problems} columns={detailColumns} defaultPageSize={10} SubComponent={ row => <div>list of charts for the selected problem</div> }
+                        // <ReactTable className='homeChartList' data={this.state.charts} columns={chartColumns} showPagination={false} defaultPageSize={3} />}} 
+                        />
                     </div>
+                    <Modal>
+                    </Modal>
                     <div className='barGrid'>
                         <NavBarOpener />  
                     </div>
@@ -102,3 +210,26 @@ const dToP = dispatch => ({
 })
 
 export default connect(sToP, dToP)(Home);
+
+
+
+const charts = [{
+    patient_id: 1, problem_id: 1, diagnosis: 'Influenza', visited: '11-1-2019', recovery_rate: '60%'
+}, {
+    patient_id: 1, problem_id: 1, diagnosis: 'Influenza', visited: '10-30-2019', recovery_rate: '50%'
+}, {
+    patient_id: 1, problem_id: 1, diagnosis: 'Influenza', visited: '10-28-2019', recovery_rate: '0%'
+}, {
+    patient_id: 1, problem_id: 2, diagnosis: 'Vitamin D Deficiency', visited: '11-1-2019', recovery_rate: '100%'
+}, {
+    patient_id: 1, problem_id: 2, diagnosis: 'Vitamin D Deficiency', visited: '10-30-2019', recovery_rate: '0%'
+}, {
+    patient_id: 2, problem_id: 3, diagnosis: 'Contact Dermatitis', visited: '10-28-2019', recovery_rate: '0%'
+},{
+    patient_id: 2, problem_id: 4, diagnosis: 'Sprain of ankle', visited: '11-1-2019', recovery_rate: '0%'
+}, {
+    patient_id: 3, problem_id: 5, diagnosis: 'Viral intestinal infection', visited: '11-05-2019', recovery_rate: '100%'
+}, {
+    patient_id: 3, problem_id: 5, diagnosis: 'Viral intestinal infection', visited: '10-28-2019', recovery_rate: '0%'
+}]
+

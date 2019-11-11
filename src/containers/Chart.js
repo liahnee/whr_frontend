@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import NavBarOpener from '../componentsNavBar/NavBarOpener';
 import LoggedInHOC from '../HOC/SignedIn';
-import { Form, Container, Dropdown, Button } from 'semantic-ui-react';
+import { Form, Container, Dropdown, Button, Card, Message, Image } from 'semantic-ui-react';
 
 class Chart extends React.Component {
 
@@ -65,7 +65,26 @@ class Chart extends React.Component {
         return (
             <React.Fragment>
                 <div className="chart">
-                    <Container className='chartcontainer'>
+                    <span>
+                        <Card
+                            color='teal'
+                            // image=
+                            // header='Elliot Baker'
+                            // meta='Friend'
+                            // description=''
+                            // extra={extra}
+                        >
+                            <Image src='https://react.semantic-ui.com/images/avatar/large/molly.png'/>
+                            <Card.Content>
+                                <Card.Header>Steve Sanders</Card.Header>
+                                <Card.Meta>Chief Complaint</Card.Meta>
+                                <Message 
+                                    error
+                                    header="sulfa drugs"
+                                    // content=""
+                                /> 
+                            </Card.Content>
+                        </Card>
                         <Form onSubmit={this.handleSubmit} className='chartgrid'>
                             <Form.Group className='HPI'>
                                 <Form.TextArea label='HPI' placeholder='' onChange={(e,d) => this.handleChange(e, d)}/>
@@ -104,8 +123,7 @@ class Chart extends React.Component {
                             </Form.Group>
                             <Button className='signoff'>Sign off</Button>
                         </Form>
-
-                    </Container>
+                    </span>
                     <div className='barGrid'>
                         <NavBarOpener />  
                     </div>
