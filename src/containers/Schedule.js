@@ -22,76 +22,59 @@ const ccColumns = [{
 
 class Schedule extends React.Component {
 	state = {
-		newCC: false,
-    selectedPatient: {},
-    ccList: []
+		newCC: false, // newCC modal 
+    ccList: [],
+    patients: [] // table column data
 	};
 
 	componentDidMount() {
-		// fetch(url + 'chart')
-
-		fetch(url + 'single_player_patients', {
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json',
-				Authorization: 'Bearer ' + localStorage.token
-			}
-		})
-			.then((resp) => resp.json())
-			.then((data) => this.props.addAllPatients(data))
-			.then(() => this.mapPatients());
+    if (this.props.allPatients.length === 0) {
+      fetch(url + 'single_player_patients', {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: 'Bearer ' + localStorage.token
+        }
+      })
+        .then((resp) => resp.json())
+        .then((data) => this.props.addAllPatients(data))
+        .then(() => this.mapPatients())
+    } else {
+      this.mapPatients();
+    }
 	}
 
-	toggle = (e) => {
-		this.setState({
-			newCC: !this.state.newCC
-		});
-	};
-
-	//  detailColumns = [
-	// 	{
-	// 		Header: 'Chief Complaint',
-	// 		accessor: 'chief_complaint'
-	// 	},
-	// 	{
-	// 		Header: 'Last Visit',
-	// 		accessor: 'last_visit'
-	// 	},
-	// 	{
-	// 		Header: 'Recovery Rate',
-	// 		accessor: 'recovery_rate'
-	// 	}
-	// ];
-
-	mapPatients = () => {
+  mapPatients = () => {
+    console.log(this.props.allPatients)
 		const patientList = this.props.allPatients.map((patient) => {
+      console.log(patient)
 			return { name: `${patient.first_name} ${patient.last_name}`, id: patient.id };
-		});
+    });
+    console.log(patientList)
 		this.setState({
 			patients: [ ...patientList ]
 		});
+  };
+  
+	toggle = (e) => {
+    this.setState({
+      newCC: !this.state.newCC
+    });
 	};
 
 	handleAddCC = (row) => {
-		this.setState(
-			{
-				selectedPatient: row._original
-			},
-			() => this.toggle())
-
+    this.props.selectPatient(row._original);
+    this.toggle();
 	};
 
-  handleRenderCC = (row) => {
-    this.setState(
-      {
-        selectedPatient: row._original
-      }, 
-      () => {this.fetchPatientCC()});
+  handleRenderCC = async (row) => {
+    await this.props.selectPatient(row._original);
+    this.fetchPatientCC();
   }
 
   fetchPatientCC = async () => {
-    console.log(this.state.selectedPatient)
-    const { id } = this.state.selectedPatient
+    console.log(this.props.selectedPatient)
+    const { id } = this.props.selectedPatient
     await fetch(url + 'sp_chief_complaints/' + id, {
       headers: {
         'Content-Type': 'application/json',
@@ -101,8 +84,17 @@ class Schedule extends React.Component {
     })
     .then(resp => resp.json()) 
     .then(data => {
-      this.setState({ccList: data})
-    });
+      if ( data.length !== 0 ) {
+        console.log(data)
+        this.props.addCC(data)
+      } else {
+        console.log(data)
+        this.props.addCC([{chief_complaint: "No Chief Complaint"}])
+      }
+    })
+  }
+  callAddCC = () => {
+
   }
 
 	render() {
@@ -130,7 +122,7 @@ class Schedule extends React.Component {
 
 		return (
 			<div className="schedule">
-				<NewCC patient={this.state.selectedPatient} fetch={this.fetchPatientCC} open={this.state.newCC} toggle={this.toggle} getTdProps={this.renderCChandler} />
+				<NewCC fetch={this.fetchPatientCC} open={this.state.newCC} toggle={this.toggle} />
 				<div>
 					<div className="scheduleCharts">
 						<ReactTable
@@ -142,7 +134,7 @@ class Schedule extends React.Component {
 							getTdProps={this.onPatientClick}
 						/>
 
-						<ReactTable className='scheduleProblemList' data={this.state.ccList} columns={ccColumns} defaultPageSize={10} SubComponent={ row => { console.log(row); return <div>list of charts for the selected problem</div> }}
+						<ReactTable className='scheduleProblemList' data={this.props.ccList} columns={ccColumns} defaultPageSize={10} SubComponent={ row => { console.log(row); return <div>list of charts for the selected problem</div> }}
                     // <ReactTable className='homeChartList' data={this.state.charts} columns={chartColumns} showPagination={false} defaultPageSize={3} />}} 
                     />
 					</div>
@@ -160,14 +152,16 @@ const sToP = (state) => {
     loggedin: state.manageLogin.loggedin, 
     allPatients: state.managePatients.allPatients,
     ccList: state.manageCC.allCC,
-    chartList: state.manageChart.allCharts
+    chartList: state.manageCharts.allCharts,
+    selectedPatient: state.manageCC.patient
   };
 };
 
 const dToP = (dispatch) => ({
 	login: (data) => dispatch({ type: 'LOGIN', payload: data }),
   addAllPatients: (data) => dispatch({ type: 'ADD_ALL_PATIENTS', payload: data }),
-  addCC: (data) => dispatch({ type: 'ADD', payload: data}),
+  selectPatient: (data) => dispatch({ type: 'PATIENT_TO_VIEW_CC', payload: data}),
+  addCC: (data) => dispatch({ type: 'ADD_CC', payload: data}), //data should hold data.patient and either data.newcc or data.cc
   schedule: (data) => dispatch({ type: 'ADD_TO_SCHEDULE', payload: data})
 });
 

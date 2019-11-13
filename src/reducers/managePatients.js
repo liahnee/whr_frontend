@@ -1,10 +1,14 @@
 export default function managePatients(state = {
     allPatients: [],
     schedule: [],
-    inRoom: {}
+    inRoom: {},
+    in_view: {}
 }, action) {
     switch (action.type) {
-        
+        case 'ADD_FOR_VIEW':
+            return {...state,
+                in_view: action.payload.patient
+            };
         case 'ADD_TO_SCHEDULE':
             return {...state,
                 allPatients: state.allPatients.filter(patient => patient.id !== action.payload.id),

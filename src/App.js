@@ -13,8 +13,11 @@ import Dashboard from './containers/Dashboard';
 import NewPatientForm from './containers/NewPatientForm';
 import Home from './containers/Home';
 
+const url = 'http://localhost:3000/api/v1/';
+
 class App extends React.Component {
-	logged() {
+
+  logged() {
 		if (localStorage.token) {
 			const data = {
 				user: {
@@ -28,8 +31,20 @@ class App extends React.Component {
 		} else {
 			return <Redirect to="login" />;
 		}
-	}
-
+  }
+  
+	componentDidMount() {
+		fetch(url + 'single_player_patients', {
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+				Authorization: 'Bearer ' + localStorage.token
+			}
+		})
+			.then((resp) => resp.json())
+			.then((data) => this.props.addAllPatients(data))
+  }
+  
 	handleLogout = () => {
 		this.props.toggle();
 		localStorage.clear();
@@ -121,7 +136,8 @@ const sToP = (state) => {
 const dToP = (dispatch) => ({
 	login: (data) => dispatch({ type: 'LOGIN', payload: data }),
 	logout: () => dispatch({ type: 'LOGOUT' }),
-	toggle: () => dispatch({ type: 'TOGGLE' })
+  toggle: () => dispatch({ type: 'TOGGLE' }),
+  addAllPatients: (data) => dispatch({ type: 'ADD_ALL_PATIENTS', payload: data })
 });
 
 export default connect(sToP, dToP)(App);
