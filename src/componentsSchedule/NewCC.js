@@ -61,7 +61,7 @@ class NewCC extends React.Component {
 const sToP = (state) => {
 	return { 
 		loggedin: state.manageLogin.loggedin,
-		patient: state.managePatients.in_view
+		patient: state.manageCC.patient
 	};
 };
 

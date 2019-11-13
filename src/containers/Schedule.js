@@ -45,12 +45,9 @@ class Schedule extends React.Component {
 	}
 
   mapPatients = () => {
-    console.log(this.props.allPatients)
 		const patientList = this.props.allPatients.map((patient) => {
-      console.log(patient)
 			return { name: `${patient.first_name} ${patient.last_name}`, id: patient.id };
     });
-    console.log(patientList)
 		this.setState({
 			patients: [ ...patientList ]
 		});
@@ -73,7 +70,6 @@ class Schedule extends React.Component {
   }
 
   fetchPatientCC = async () => {
-    console.log(this.props.selectedPatient)
     const { id } = this.props.selectedPatient
     await fetch(url + 'sp_chief_complaints/' + id, {
       headers: {
@@ -85,10 +81,8 @@ class Schedule extends React.Component {
     .then(resp => resp.json()) 
     .then(data => {
       if ( data.length !== 0 ) {
-        console.log(data)
         this.props.addCC(data)
       } else {
-        console.log(data)
         this.props.addCC([{chief_complaint: "No Chief Complaint"}])
       }
     })
