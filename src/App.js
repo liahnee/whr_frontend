@@ -75,10 +75,6 @@ class App extends React.Component {
 								<Icon name="address book outline" />
 								Home
 							</Menu.Item>
-							<Menu.Item as={Link} to="/schedule">
-								<Icon name="calendar alternate outline" />
-								Schedule
-							</Menu.Item>
 							<Menu.Item as={Link} to="/chart">
 								<Icon name="clipboard outline" />
 								Chart
@@ -86,6 +82,10 @@ class App extends React.Component {
 							<Menu.Item as={Link} to="/new_patient">
 								<Icon name="add user" />
 								New Pt
+							</Menu.Item>
+              <Menu.Item as={Link} to="/schedule">
+								<Icon name="calendar alternate outline" />
+								Schedule
 							</Menu.Item>
 							<Menu.Item as={Link} to="/profile">
 								<Icon name="user md" />

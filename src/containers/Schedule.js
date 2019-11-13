@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import NavBarOpener from '../componentsNavBar/NavBarOpener';
 import LoggedInHOC from '../HOC/SignedIn';
 import ReactTable from 'react-table';
-import NewCC from '../componentsSchedule/NewCC';
 import { Icon } from 'semantic-ui-react';
 
 const url = 'http://localhost:3000/api/v1/';
@@ -12,13 +11,18 @@ const url = 'http://localhost:3000/api/v1/';
 const ccColumns = [{
   Header: 'Chief Complaint',
   accessor: 'chief_complaint'
-}, {
-  Header: 'Last Visit',
-  accessor: 'last_visit'
-}, {
-  Header: 'Recovery Rate',
-  accessor: 'recovery_rate'
 }]
+
+const scheduleColumns = [
+  {
+    Header: 'Patient',
+    accessor: 'name'
+  },
+  {
+    Header: 'Chief Complaint',
+    accessor: 'chief_complaint'
+  }
+]
 
 class Schedule extends React.Component {
 	state = {
@@ -87,14 +91,17 @@ class Schedule extends React.Component {
       }
     })
   }
-  callAddCC = () => {
+  // callAddCC = () => {
+
+  // }
+
+  onCCClick = () => {
 
   }
 
 	render() {
 		const patientColumns = [
 			{
-				id: 'add_new_chief_complaint',
 				Header: () => <div className="newCCLabel" />,
 				Cell: ({ row }) => (
 					<div className="newCCBtn">
@@ -112,11 +119,13 @@ class Schedule extends React.Component {
         ,
 				width: 100
 			}
-		];
+    ];
+    
+
 
 		return (
 			<div className="schedule">
-				<NewCC fetch={this.fetchPatientCC} open={this.state.newCC} toggle={this.toggle} />
+				{/* <NewCC fetch={this.fetchPatientCC} open={this.state.newCC} toggle={this.toggle} />
 				<div>
 					<div className="scheduleCharts">
 						<ReactTable
@@ -127,12 +136,10 @@ class Schedule extends React.Component {
 							showPagination={false}
 							getTdProps={this.onPatientClick}
 						/>
-
-						<ReactTable className='scheduleProblemList' data={this.props.ccList} columns={ccColumns} defaultPageSize={10} SubComponent={ row => { console.log(row); return <div>list of charts for the selected problem</div> }}
-                    // <ReactTable className='homeChartList' data={this.state.charts} columns={chartColumns} showPagination={false} defaultPageSize={3} />}} 
-                    />
+						<ReactTable className='scheduleProblemList' data={this.props.ccList} columns={ccColumns} defaultPageSize={10}/>
+						
 					</div>
-				</div>
+				</div> */}
 				<div className="barGrid">
 					<NavBarOpener />
 				</div>
@@ -147,7 +154,8 @@ const sToP = (state) => {
     allPatients: state.managePatients.allPatients,
     ccList: state.manageCC.allCC,
     chartList: state.manageCharts.allCharts,
-    selectedPatient: state.manageCC.patient
+    selectedPatient: state.manageCC.patient,
+    scheduledPatient: state.managePatients.schedule
   };
 };
 

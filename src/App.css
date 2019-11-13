@@ -310,9 +310,9 @@ margin-left: 24vw;
   margin-top: 10vh;
   width: 80vw;
   display: grid;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: 1fr 3fr 1fr ;
   grid-template-areas: 
-  "a b";
+  "a b c";
 }
 
 .homeCharts .rt-resizable-header-content {

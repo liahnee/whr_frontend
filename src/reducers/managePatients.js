@@ -1,6 +1,6 @@
 export default function managePatients(state = {
     allPatients: [],
-    schedule: [],
+    schedule: [{}],
     inRoom: {},
     in_view: {}
 }, action) {
