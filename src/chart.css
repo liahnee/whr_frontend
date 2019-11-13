@@ -1,0 +1,104 @@
+
+.chart .ui.teal.card {
+  margin-top: 1vh;
+  margin-left: 3vw;
+  position: fixed;
+  max-width: 14vw;
+  background: rgba(0, 0, 0, 0.39);
+  color: white;
+  border: none !important;
+}
+  
+.chart .ui.card>.content>.header {
+  color: white !important;
+}
+
+.chart .ui.card .meta {
+  color: rgba(255, 255, 255, 0.466);
+}
+
+.chart .field>label {
+  color: rgba(255, 255, 255, 0.644) !important;
+}
+
+.chart .ui.form textarea{
+  min-width: 36vw;
+  min-height: 34vh;
+  background: rgba(0, 0, 0, 0.39);
+  color: blanchedalmond;
+}
+
+.chartgrid {
+  display: grid;
+  grid-template-areas: 
+  "a b"
+  "c d";
+  height: 80vh;
+  width: 78vw;
+  margin-left:auto;
+  margin-right:2vw;
+  margin-top:5vh;
+  margin-bottom:auto;
+  padding: 5px 5px;
+  /* background: rgba(0, 0, 0, 0.452) ; */
+}
+
+/* .diagnosisDropdown {
+  display: grid;
+  grid-template-columns: 85% 15%;
+  width: 36vw;
+} */
+
+.diagnosis {
+  width: 36vw !important;
+  /* border-bottom-right-radius: 0 !important;
+  border-top-right-radius: 0 !important; */
+  background: rgba(0, 0, 0, 0.39) !important;
+}
+
+.diagnosisBtn {
+  margin: 0 0 !important;
+
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  background: rgba(0, 0, 0, 0.39) !important;
+}
+
+.rx {
+  width: 36vw !important;
+  background: rgba(0, 0, 0, 0.39) !important; 
+}
+
+.chart .ui.search.dropdown>input.search {
+  color:white;
+}
+
+.chart .menu {
+  background: rgba(0, 0, 0, 0.452) !important;
+  color: white !important; 
+}
+
+.chart .ui.dropdown .menu .selected.item {
+  color: white !important;
+}
+
+.chart .ui.dropdown .menu>.item {
+  color: white;
+}
+
+.chart .ui.dropdown .menu>.message {
+  color: rgba(255, 255, 255, 0.555);
+}
+
+
+.signoff {
+  width: 100px;
+  height:40px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  bottom: -10vh;
+}
+

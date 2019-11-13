@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import NavBarOpener from '../componentsNavBar/NavBarOpener';
 import LoggedInHOC from '../HOC/SignedIn';
-import { Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { Form, Dropdown, Checkbox, Input, Button, Modal, Image, List, Divider, Message } from 'semantic-ui-react';
 
 
@@ -140,21 +140,29 @@ class NewPatientForm extends React.Component {
             body: JSON.stringify( { single_player_patient: { first_name, last_name, gender, sex, age, currently_pregnant, experience_in_pregnancy, last_menstruation, personality, lifestyle, finance, user_id } })
         })
         .then(resp => {
-            console.log(resp)
             if (!resp.ok) {
+                console.log('resp is not okay')
                 this.setState({
                     error: true,
-                    error_msg: resp.json()
                 })
             }
             else {
+                console.log('resp is ok', resp)
                 return resp.json()
-            }           
-        }).then( () => {
-            return <Redirect to='/' />
+            }
+        })
+        .then(data => {
+            if (data.error) {
+                this.setState({
+                    error: true,
+                    error_msg: data.error
+                })
+            } else {
+                this.props.history.push('/')
+            }
         })
     }
-
+    
     render() {
         const gender = [
             { key: 'm', text: 'Male', value: 'male' },
@@ -239,6 +247,8 @@ class NewPatientForm extends React.Component {
                             </div>
                             <span> Allergies 
                                 <Dropdown
+                                disabled
+
                                     name='allergies'
                                     placeholder='Allergies'
                                     fluid
@@ -251,6 +261,8 @@ class NewPatientForm extends React.Component {
                             </span>
                             <span> Drug Allergies
                                 <Dropdown
+                                disabled
+                                
                                     name='drug_allergies'
                                     placeholder='Drug Allergies'
                                     fluid
@@ -263,6 +275,8 @@ class NewPatientForm extends React.Component {
                             </span>
                             <span> Past Medical History 
                                 <Dropdown
+                                disabled
+
                                     name='past_medical_history'
                                     placeholder='Past Medical History'
                                     fluid
@@ -329,7 +343,7 @@ class NewPatientForm extends React.Component {
                                 {this.state.error? <Message className='newPatientError'
                                     error
                                     header='Action Forbidden'
-                                    content='Must fill in all forms.'
+                                    content={this.state.error_msg}
                                 /> : null }
                             </Modal.Content>
                             <Modal.Actions>
@@ -353,4 +367,4 @@ const dToP = dispatch => ({
     login: data => dispatch({ type: "LOGIN", payload:data})
 })
 
-export default connect(sToP, dToP)(LoggedInHOC(NewPatientForm));
+export default connect(sToP, dToP)(LoggedInHOC(withRouter(NewPatientForm)));

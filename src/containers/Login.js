@@ -3,7 +3,6 @@ import { Form, Input, Button, Label, Message } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 import SignUp from '../componentsHome/SignUp';
-import Password from '../componentsHome/PasswordInput';
 
 class Signin extends React.Component {
 
@@ -81,7 +80,7 @@ class Signin extends React.Component {
                             <Input transparent placeholder='   USERNAME' className="signinUsername" onChange={this.handleUsername.bind(this)}/>
                         </Form.Field>
                         <Form.Field inline >
-                            <Password value={this.state.password} onChange={this.handlePassword.bind(this)}/> 
+                            <input type='password' value={this.state.password} onChange={this.handlePassword.bind(this)}/> 
                         </Form.Field>
                         <Button basic inverted color='blue' id="signinBtn" style={{border:"none"}}> Enter </Button>
                         <Button basic inverted color='olive' id="signupBtn" onClick={(e) => this.toggleSignUp(e)}>New Account</Button>

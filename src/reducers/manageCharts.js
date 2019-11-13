@@ -1,16 +1,15 @@
 export default function managePatients(state = {
     allPatients: [],
-    schedule: [],
-    inRoom: {}
+    waitList: [],
+    inRoom: ""
 }, action) {
     switch (action.type) {
-        
-        case 'ADD_TO_SCHEDULE':
+        case 'ADD_TO_WAITLIST':
             return {...state,
                 allPatients: state.allPatients.filter(patient => patient.id !== action.payload.id),
                 waitList: state.waitList.concat(action.payload)
             };
-        case 'DELETE_FROM_SCHEDULE':
+        case 'DELETE_FROM_WAITLIST':
             return {...state,
                 allPatients: state.allPatients.concat(action.payload),
                 waitList: state.waitList.filter(patient => patient.id !== action.payload.id),

@@ -1,0 +1,58 @@
+.schedule {
+    color: white;
+
+}
+
+.scheduleCharts {
+    margin-left:auto;
+    margin-right:auto;
+    margin-top: 10vh;
+    width: 80vw;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-template-areas: 
+    "a b c";
+    overflow: scroll;
+}
+
+.schedulePatientList {
+    grid-area: a;
+    min-width: 30%;
+    height:70vh;
+}
+
+.newCCLabel {
+    width:50px;
+}
+
+.newCCBtn {
+    width: 50px;
+}
+
+.homeCharts .rt-resizable-header-content {
+    font-size: 15px;
+    font-weight: bold;
+    color: rgb(255, 233, 213);
+  }
+  
+  .homeCharts .-btn {
+    color:white !important;
+    font-size: 12px;
+  }
+  
+  .homeCharts .-pageJump input {
+    width: 40px !important;
+    background: rgba(255, 255, 255, 0.493);
+    font-size: 12px;
+  }
+  
+  .homeCharts .-pagination select {
+    color:white;
+    background: rgba(255, 255, 255, 0);
+    height: 30px;
+    font-size: 12px;
+  }
+  
+  .homeCharts .-center {
+    min-width: 60%;
+  }
