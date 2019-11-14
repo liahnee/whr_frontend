@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 const NavBarOpener = props => {
     return (
         <React.Fragment>
-            <Button circular icon color='black' onClick={props.toggle} id='navBarOpener'><Icon size='large' name='medkit'/></Button>
+            <Button circular icon color='black' onClick={props.toggle} id='navBarOpener'><Icon size='huge' name='medkit'/></Button>
         </React.Fragment>
     )
 }

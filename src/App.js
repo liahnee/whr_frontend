@@ -55,6 +55,40 @@ class App extends React.Component {
 		return <React.Fragment />;
 	};
 
+	updatePatientList = () => {
+		if (!this.props.allPatients || this.props.allPatients.length === 0 || this.props.allPatients) {
+			fetch(url + 'single_player_patients', {
+				headers: {
+					'Content-Type': 'application/json',
+					Accept: 'application/json',
+					Authorization: 'Bearer ' + localStorage.token
+				}
+			})
+				.then((resp) => resp.json())
+				.then((data) => this.props.addAllPatients(data))
+				.then(() => {
+					const patientList = this.props.allPatients.map((patient) => {
+						return { name: `${patient.first_name} ${patient.last_name}`, id: patient.id };
+					});
+					this.setState({
+						patients: [ ...patientList ]
+					});
+				});
+		} 
+		// else {
+		// 	fetch(url + 'single_player_patients', {
+		// 		headers: {
+		// 			'Content-Type': 'application/json',
+		// 			Accept: 'application/json',
+		// 			Authorization: 'Bearer ' + localStorage.token
+		// 		}
+		// 	})
+		// 		.then((resp) => resp.json())
+		// 		.then((data) => this.props.addAllPatients(data))
+		// 		.then(() => this.mapPatients());
+		// }
+	}
+
 	render() {
 		return (
 			<Sidebar.Pushable>
@@ -156,7 +190,7 @@ class App extends React.Component {
 				) : null}
 				<Sidebar.Pusher dimmed={this.props.show}>
 					<Route exact path="/">
-						{this.props.loggedin ? <Home /> : this.logged()}
+						{this.props.loggedin ? <Home updatePatientList={this.updatePatientList} /> : this.logged()}
 					</Route>
 					<Route exact path="/login">
 						<Login />
@@ -174,7 +208,7 @@ class App extends React.Component {
 						{this.props.chart === false ? <Redirect to="/" /> : <Chart />}
 					</Route>
 					<Route exact path="/new_patient">
-						<NewPatientForm />
+						<NewPatientForm updatePatientList={this.updatePatientList}/>
 					</Route>
 				</Sidebar.Pusher>
 			</Sidebar.Pushable>

@@ -153,12 +153,6 @@ margin-left: 24vw;
  background-color: rgba(0, 0, 0, 0.623);
 }
 
-/* #navBarOpener {
-  position: fixed;
-  bottom: 5vh;
-  left: 5vh;
-} */
-
 .barGrid {
   display:grid;
   grid-template-areas: 
@@ -183,13 +177,13 @@ margin-left: 24vw;
 
 #navBarOpener {
   grid-area: g;
-  max-height: 5vw;
+  /* max-height: 5vw;
   max-width: 5vw;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 0;
   margin-top: auto;
-  position: relative;
+  position: relative; */
 }
 
 
@@ -307,7 +301,8 @@ margin-left: 24vw;
 }
 
 #signup {
-  background-image: url('./assets//ww.jpg');
+  background-image: url('./assets//ww2.jpg');
+  background-size: cover;
 }
 
 #signup .ui.header {

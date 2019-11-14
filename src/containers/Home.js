@@ -1,6 +1,6 @@
 import React from 'react';
 import '../home.css';
-import { Icon } from 'semantic-ui-react';
+import { Icon, Popup } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 // import { Link } from 'react-router-dom';
 import NavBarOpener from '../componentsNavBar/NavBarOpener';
@@ -20,7 +20,8 @@ class Home extends React.Component {
 	componentDidMount() {
 		// console.log(this.props.allPatients)
 
-		if (!this.props.allPatients || this.props.allPatients.length === 0) {
+		// this.props.updatePatientList()
+		if (!this.props.allPatients || this.props.allPatients.length === 0 || this.props.allPatients) {
 			fetch(url + 'single_player_patients', {
 				headers: {
 					'Content-Type': 'application/json',
@@ -31,11 +32,11 @@ class Home extends React.Component {
 				.then((resp) => resp.json())
 				.then((data) => this.props.addAllPatients(data))
 				.then(() => this.mapPatients());
-		} else {
-			this.mapPatients();
-		}
+		} 
 
 	}
+
+
 
 	mapPatients = () => {
 		const patientList = this.props.allPatients.map((patient) => {
@@ -101,7 +102,25 @@ class Home extends React.Component {
 				Header: () => <div className="newCCLabel" />,
 				Cell: ({ row }) => (
 					<div className="newCCBtn">
+						<Popup
+						// offset="0, 200px"
+						pinned={true}
+						hoverable
+						position='bottom left'
+						on="hover"
+						trigger={
 						<Icon circular name="plus circle" size="large" onClick={() => this.handleAddCC(row)} />
+					}
+						content="Click to add new chief complaints. Multiple can be created."
+						style={{
+							bordeRadius: 5,
+							opacity: 0.7,
+							padding: '2em',
+							// position: 'fixed',
+							// marginTop: '50px'
+						}}
+						inverted
+					/>
 					</div>
 				),
 				width: 50
@@ -111,9 +130,11 @@ class Home extends React.Component {
 				accessor: 'name',
 				Cell: ({ row }) => {
 					return (
+						
 						<h3 className="hoverColor" onClick={() => this.handleRenderCC(row)}>
 							{row.name}
 						</h3>
+						
 					);
 				},
 				width: 100

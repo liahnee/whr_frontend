@@ -49,21 +49,12 @@
   /* background: rgba(0, 0, 0, 0.452) ; */
 }
 
-/* .search {
-  display: grid;
-  grid-template-columns: 85% 15%;
-  width: 36vw;
-} */
 
 .diagnosis {
   width: 36vw !important;
   border-radius: none !important;
   background: rgba(0, 0, 0, 0.39) !important;
 }
-
-/* .diagnosisBtn {
-
-} */
 
 .rx {
   width: 36vw !important;
@@ -99,7 +90,7 @@
 }
 
 
-.signoff {
+.signoff.ui.button {
   width: 100px;
   height:40px;
   position: absolute;
@@ -107,7 +98,14 @@
   right: 0;
   margin-left: auto !important;
   margin-right: auto !important;
-  bottom: -10vh;
+  bottom: 5vh;
+  background: none;
+  color:white;
+}
+
+.signoff.ui.button:hover {
+  background: rgba(77, 255, 130, 0.521) !important;
+  /* padding: 9.5px 14px; */
 }
 
 .checkoutBtn.ui.small.button {
@@ -142,11 +140,11 @@
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
-
-
 }
 
-/* .search .ui.input {
+
+
+.search .ui.input {
   left: 0;
   background: rgba(0, 0, 0, 0.39) !important;
   width: 32vw !important;
@@ -155,8 +153,9 @@
   margin-top: 1vh;
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
-} */
-/* .search input{
+}
+
+.search .ui.form input[type=text] {
   left: 0;
   background: rgba(0, 0, 0, 0.39) !important;
   width: 32vw !important;
@@ -165,15 +164,6 @@
   margin-top: 1vh;
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
-} */
-
-.chartgrid .ui.button {
-  background: rgba(0, 0, 0, 0.39) !important;
-  /* padding: 9.5px 14px; */
-}
-.chartgrid .ui.button:hover {
-  background: rgba(150, 150, 150, 0.678) !important;
-  /* padding: 9.5px 14px; */
 }
 
 .diagnosisSearch i.icon {
@@ -204,4 +194,19 @@
 
 .assessmentList  .content {
   height: 3vh;
+}
+
+.chartDate {
+  position: fixed !important;
+  top: 2vh; 
+  background: rgba(0, 0, 0, 0.562);
+  color: white;
+}
+.chartDate.ui.input input{
+  background: rgba(0, 0, 0, 0.178);
+  color: white;
+}
+
+.ap .ui.form.grouped.fields>label {
+  color:rgba(255, 255, 255, 0.644);
 }
