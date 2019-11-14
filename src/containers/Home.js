@@ -24,7 +24,8 @@ class Home extends React.Component {
 	state = {
 		newCC: false, // newCC modal
 		ccList: [],
-		patients: [] // table column data
+    patients: [], // table data
+    scheduledPatients: [] //table data 
 	};
 
 	componentDidMount() {
@@ -89,8 +90,9 @@ class Home extends React.Component {
 			});
 	};
 
-	scheduleData = (data) => {
-		console.log(data);
+	renderScheduleData = async (data) => {
+    await this.props.selectForSchedule(data)
+    console.log(this.props.selectedForSchedule)
 	};
 
 	render() {
@@ -108,7 +110,6 @@ class Home extends React.Component {
 				Header: 'Patient',
 				accessor: 'name',
 				Cell: ({ row }) => {
-					console.log(row.name);
 					return (
 						<label className="hoverColor" onClick={() => this.handleRenderCC(row)}>
 							{row.name}
@@ -124,8 +125,9 @@ class Home extends React.Component {
 				Header: 'Chief Complaint',
 				accessor: 'chief_complaint',
 				Cell: ({ row }) => {
+          const data = row._original
 					return (
-						<label className="hoverColor" onClick={() => this.scheduleData(row)}>
+						<label className="hoverColor" onClick={() => this.renderScheduleData(data)}>
 							{row.chief_complaint}
 						</label>
 					);
@@ -168,7 +170,7 @@ class Home extends React.Component {
 						/>
 						<ReactTable
 							className="scheduleList"
-							data={this.props.selectedForSchedule}
+							data={this.state.scheduledPatients}
 							columns={scheduleColumns}
 							showPagination={false}
 							defaultPageSize={100}
@@ -190,7 +192,7 @@ const sToP = (state) => {
 		ccList: state.manageCC.allCC,
     chartList: state.manageCharts.allCharts,
     selectedForCC: state.manageCC.patient,
-		selectedForScheulde: state.managePatients.schedule
+		selectedForSchedule: state.managePatients.schedule
 	};
 };
 

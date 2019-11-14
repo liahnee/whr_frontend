@@ -1,7 +1,7 @@
 export default function manageCC(
 	state = {
 		patient: {}, //exists to separate managePatient.state.in_view to just for cc later
-		allCC: [ { chief_complaint: 'None Selected' } ]
+		allCC: []
 	},
 	action
 ) {
