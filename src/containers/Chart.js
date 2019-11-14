@@ -17,6 +17,10 @@ class Chart extends React.Component {
     icd_11: []
 	};
 
+  componentDidMount() {
+
+  }
+
 	handleChange = (e, d) => {
 		const key = d.name;
     const value = d.value;

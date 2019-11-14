@@ -1,0 +1,64 @@
+
+.homePG {
+  color: white;
+  overflow:scroll;
+}
+
+.homeCharts {
+  margin-left:auto;
+  margin-right:auto;
+  margin-top: 10vh;
+  width: 80vw;
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr ;
+  grid-template-areas: 
+  "a b c";
+}
+
+.homeCharts .rt-resizable-header-content {
+  font-size: 15px;
+  font-weight: bold;
+  color: rgb(255, 233, 213);
+}
+
+.homeCharts .-btn {
+  color:white !important;
+  font-size: 12px;
+}
+
+.homeCharts .-pageJump input {
+  width: 40px !important;
+  background: rgba(255, 255, 255, 0.493);
+  font-size: 12px;
+}
+
+.homeCharts .-pagination select {
+  color:white;
+  background: rgba(255, 255, 255, 0);
+  height: 30px;
+  font-size: 12px;
+}
+
+.homeCharts .-center {
+  min-width: 60%;
+}
+
+.homePatientList {
+  grid-area: a;
+  min-width: 30%;
+  height:70vh;
+}
+
+.homeProblemList {
+  grid-area: b;
+  min-width: 70%;
+  height: 70vh;
+}
+
+.homeChartList {
+  width: 100%;
+}
+
+.hoverColor:hover {
+  color: rgb(255, 243, 82);    
+}

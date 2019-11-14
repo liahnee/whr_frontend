@@ -1,4 +1,5 @@
 import React from 'react';
+import '../home.css';
 import { Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 // import { Link } from 'react-router-dom';
@@ -8,31 +9,16 @@ import NewCC from '../componentsHome/NewCC';
 
 const url = 'http://localhost:3000/api/v1/';
 
-const ccColumns = [
+const scheduleColumns = [
+	{
+		Header: 'Patient',
+		accessor: 'name'
+	},
 	{
 		Header: 'Chief Complaint',
 		accessor: 'chief_complaint'
-	},
-	{
-		Header: 'Last Visit',
-		accessor: 'last_visit'
-	},
-	{
-		Header: 'Recovery Rate',
-		accessor: 'recovery_rate'
 	}
 ];
-
-const scheduleColumns = [
-  {
-    Header: 'Patient',
-    accessor: 'name'
-  },
-  {
-    Header: 'Chief Complaint',
-    accessor: 'chief_complaint'
-  }
-]
 
 class Home extends React.Component {
 	state = {
@@ -42,6 +28,7 @@ class Home extends React.Component {
 	};
 
 	componentDidMount() {
+		// console.log(this.props.allPatients)
 		if (this.props.allPatients.length === 0) {
 			fetch(url + 'single_player_patients', {
 				headers: {
@@ -74,17 +61,17 @@ class Home extends React.Component {
 	};
 
 	handleAddCC = (row) => {
-		this.props.selectPatient(row._original);
+		this.props.selectForCC(row._original);
 		this.toggle();
 	};
 
 	handleRenderCC = async (row) => {
-		await this.props.selectPatient(row._original);
+		await this.props.selectForCC(row._original);
 		this.fetchPatientCC();
 	};
 
 	fetchPatientCC = async () => {
-		const { id } = this.props.selectedPatient;
+		const { id } = this.props.selectedForCC;
 		await fetch(url + 'sp_chief_complaints/' + id, {
 			headers: {
 				'Content-Type': 'application/json',
@@ -101,11 +88,14 @@ class Home extends React.Component {
 				}
 			});
 	};
-	callAddCC = () => {};
+
+	scheduleData = (data) => {
+		console.log(data);
+	};
 
 	render() {
 		const patientColumns = [
-      {
+			{
 				Header: () => <div className="newCCLabel" />,
 				Cell: ({ row }) => (
 					<div className="newCCBtn">
@@ -118,15 +108,42 @@ class Home extends React.Component {
 				Header: 'Patient',
 				accessor: 'name',
 				Cell: ({ row }) => {
-					return <label onClick={() => this.handleRenderCC(row)}>{row.name}</label>;
+					console.log(row.name);
+					return (
+						<label className="hoverColor" onClick={() => this.handleRenderCC(row)}>
+							{row.name}
+						</label>
+					);
 				},
 				width: 100
 			}
 		];
 
+		const ccColumns = [
+			{
+				Header: 'Chief Complaint',
+				accessor: 'chief_complaint',
+				Cell: ({ row }) => {
+					return (
+						<label className="hoverColor" onClick={() => this.scheduleData(row)}>
+							{row.chief_complaint}
+						</label>
+					);
+				}
+			},
+			{
+				Header: 'Last Visit',
+				accessor: 'last_visit'
+			},
+			{
+				Header: 'Recovery Rate',
+				accessor: 'recovery_rate'
+			}
+		];
+
 		return (
 			<div className="homePG">
-        <NewCC fetch={this.fetchPatientCC} open={this.state.newCC} toggle={this.toggle} />
+				<NewCC fetch={this.fetchPatientCC} open={this.state.newCC} toggle={this.toggle} />
 				<div>
 					<div className="homeCharts">
 						<ReactTable
@@ -135,7 +152,7 @@ class Home extends React.Component {
 							columns={patientColumns}
 							defaultPageSize={10}
 							showPagination={false}
-							getTdProps={this.onPatientClick}
+							
 						/>
 
 						<ReactTable
@@ -147,11 +164,15 @@ class Home extends React.Component {
 								console.log(row);
 								return <div>list of charts for the selected problem</div>;
 							}}
-              // <ReactTable className='homeChartList' data={this.state.charts} columns={chartColumns} showPagination={false} defaultPageSize={3} />}}
-              
-              
+							// <ReactTable className='homeChartList' data={this.state.charts} columns={chartColumns} showPagination={false} defaultPageSize={3} />}}
 						/>
-            <ReactTable className='scheduleList' data={this.props.scheduledPatient} columns={scheduleColumns} defaultPageSize={10}/>
+						<ReactTable
+							className="scheduleList"
+							data={this.props.selectedForSchedule}
+							columns={scheduleColumns}
+							showPagination={false}
+							defaultPageSize={100}
+						/>
 					</div>
 				</div>
 				<div className="barGrid">
@@ -167,17 +188,20 @@ const sToP = (state) => {
 		loggedin: state.manageLogin.loggedin,
 		allPatients: state.managePatients.allPatients,
 		ccList: state.manageCC.allCC,
-		chartList: state.manageCharts.allCharts,
-		selectedPatient: state.manageCC.patient
+    chartList: state.manageCharts.allCharts,
+    selectedForCC: state.manageCC.patient,
+		selectedForScheulde: state.managePatients.schedule
 	};
 };
 
 const dToP = (dispatch) => ({
 	login: (data) => dispatch({ type: 'LOGIN', payload: data }),
 	addAllPatients: (data) => dispatch({ type: 'ADD_ALL_PATIENTS', payload: data }),
-	selectPatient: (data) => dispatch({ type: 'PATIENT_TO_VIEW_CC', payload: data }),
+
+	selectForCC: (data) => dispatch({ type: 'PATIENT_TO_VIEW_CC', payload: data }),
 	addCC: (data) => dispatch({ type: 'ADD_CC', payload: data }), //data should hold data.patient and either data.newcc or data.cc
-	schedule: (data) => dispatch({ type: 'ADD_TO_SCHEDULE', payload: data })
+
+	selectForSchedule: (data) => dispatch({ type: 'ADD_TO_SCHEDULE', payload: data })
 });
 
 export default connect(sToP, dToP)(Home);
