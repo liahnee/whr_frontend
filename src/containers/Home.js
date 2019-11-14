@@ -12,11 +12,13 @@ const url = 'http://localhost:3000/api/v1/';
 const scheduleColumns = [
 	{
 		Header: 'Patient',
-		accessor: 'name'
+		accessor: 'name',
+		Cell: ({ row }) => <h3>{row.name}</h3>
 	},
 	{
 		Header: 'Chief Complaint',
-		accessor: 'chief_complaint'
+		accessor: 'chief_complaint',
+		Cell: ({ row }) => <h3>{row.chief_complaint}</h3>
 	}
 ];
 
@@ -24,8 +26,8 @@ class Home extends React.Component {
 	state = {
 		newCC: false, // newCC modal
 		ccList: [],
-    patients: [], // table data
-    scheduledPatients: [] //table data 
+		patients: [], // table data
+		scheduledPatients: [] //table data
 	};
 
 	componentDidMount() {
@@ -82,17 +84,20 @@ class Home extends React.Component {
 		})
 			.then((resp) => resp.json())
 			.then((data) => {
-				if (data.length !== 0) {
-					this.props.addCC(data);
-				} else {
-					this.props.addCC([ { chief_complaint: 'No Chief Complaint' } ]);
-				}
+				// if (data.length !== 0) {
+				this.props.addCC(data);
+				// } else {
+				// 	this.props.addCC([ { chief_complaint: 'No Chief Complaint' } ]);
+				// }
 			});
 	};
 
-	renderScheduleData = async (data) => {
-    await this.props.selectForSchedule(data)
-    console.log(this.props.selectedForSchedule)
+	renderScheduleData = (data) => {
+		data.name = data.single_player_patient.first_name + ' ' + data.single_player_patient.last_name;
+		this.props.selectForSchedule(data);
+		if (this.props.room === false) {
+			this.props.openRoom();
+		}
 	};
 
 	render() {
@@ -111,9 +116,9 @@ class Home extends React.Component {
 				accessor: 'name',
 				Cell: ({ row }) => {
 					return (
-						<label className="hoverColor" onClick={() => this.handleRenderCC(row)}>
+						<h3 className="hoverColor" onClick={() => this.handleRenderCC(row)}>
 							{row.name}
-						</label>
+						</h3>
 					);
 				},
 				width: 100
@@ -125,11 +130,11 @@ class Home extends React.Component {
 				Header: 'Chief Complaint',
 				accessor: 'chief_complaint',
 				Cell: ({ row }) => {
-          const data = row._original
+					const data = row._original;
 					return (
-						<label className="hoverColor" onClick={() => this.renderScheduleData(data)}>
+						<h3 className="hoverColor" onClick={() => this.renderScheduleData(data)}>
 							{row.chief_complaint}
-						</label>
+						</h3>
 					);
 				}
 			},
@@ -146,36 +151,33 @@ class Home extends React.Component {
 		return (
 			<div className="homePG">
 				<NewCC fetch={this.fetchPatientCC} open={this.state.newCC} toggle={this.toggle} />
-				<div>
-					<div className="homeCharts">
-						<ReactTable
-							className="homePatientList"
-							data={this.state.patients}
-							columns={patientColumns}
-							defaultPageSize={10}
-							showPagination={false}
-							
-						/>
+				<div className="homeCharts">
+					<ReactTable
+						className="homePatientList"
+						data={this.state.patients}
+						columns={patientColumns}
+						defaultPageSize={10}
+						showPagination={false}
+					/>
 
-						<ReactTable
-							className="homeProblemList"
-							data={this.props.ccList}
-							columns={ccColumns}
-							defaultPageSize={10}
-							SubComponent={(row) => {
-								console.log(row);
-								return <div>list of charts for the selected problem</div>;
-							}}
-							// <ReactTable className='homeChartList' data={this.state.charts} columns={chartColumns} showPagination={false} defaultPageSize={3} />}}
-						/>
-						<ReactTable
-							className="scheduleList"
-							data={this.state.scheduledPatients}
-							columns={scheduleColumns}
-							showPagination={false}
-							defaultPageSize={100}
-						/>
-					</div>
+					<ReactTable
+						className="homeProblemList"
+						data={this.props.ccList}
+						columns={ccColumns}
+						defaultPageSize={10}
+						SubComponent={(row) => {
+							console.log(row);
+							return <div>list of charts for the selected problem</div>;
+						}}
+						// <ReactTable className='homeChartList' data={this.state.charts} columns={chartColumns} showPagination={false} defaultPageSize={3} />}}
+					/>
+					<ReactTable
+						className="scheduleList"
+						data={this.props.selectedForSchedule}
+						columns={scheduleColumns}
+						showPagination={false}
+						defaultPageSize={100}
+					/>
 				</div>
 				<div className="barGrid">
 					<NavBarOpener />
@@ -190,9 +192,10 @@ const sToP = (state) => {
 		loggedin: state.manageLogin.loggedin,
 		allPatients: state.managePatients.allPatients,
 		ccList: state.manageCC.allCC,
-    chartList: state.manageCharts.allCharts,
-    selectedForCC: state.manageCC.patient,
-		selectedForSchedule: state.managePatients.schedule
+		chartList: state.manageCharts.allCharts,
+		selectedForCC: state.manageCC.patient,
+		selectedForSchedule: state.managePatients.schedule,
+		room: state.manageNavBar.chart
 	};
 };
 
@@ -203,7 +206,8 @@ const dToP = (dispatch) => ({
 	selectForCC: (data) => dispatch({ type: 'PATIENT_TO_VIEW_CC', payload: data }),
 	addCC: (data) => dispatch({ type: 'ADD_CC', payload: data }), //data should hold data.patient and either data.newcc or data.cc
 
-	selectForSchedule: (data) => dispatch({ type: 'ADD_TO_SCHEDULE', payload: data })
+	selectForSchedule: (data) => dispatch({ type: 'ADD_TO_SCHEDULE', payload: data }),
+	openRoom: () => dispatch({ type: 'ROOM_OPEN' })
 });
 
 export default connect(sToP, dToP)(Home);

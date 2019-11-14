@@ -1,7 +1,7 @@
 export default function managePatients(state = {
     allPatients: [],
     schedule: [],
-    inRoom: {},
+    inRoom: false,
     in_view: {}
 }, action) {
     switch (action.type) {
@@ -12,7 +12,16 @@ export default function managePatients(state = {
         case 'ADD_TO_SCHEDULE':
             if (state.schedule.includes(action.payload)){
                 return state
-            } else {
+            } else if (state.inRoom !== false && state.inRoom.id === action.payload.id) {
+                return state
+            } 
+            else if (state.inRoom !== false && state.inRoom.single_player_patient.id === action.payload.single_player_patient.id) {
+                return {...state,
+                    schedule: [...state.schedule, action.payload],
+                    inRoom: false
+                }
+            }
+            else {
                 return {...state,
                     schedule: [...state.schedule.filter( patient => patient.single_player_patient.id !== action.payload.single_player_patient.id), action.payload] 
                 }
@@ -24,14 +33,19 @@ export default function managePatients(state = {
             };
         case 'ADD_TO_ROOM':
             return {...state,
-                schedule: state.schedule.filter(patient => patient.id !== action.payload.id),
-                inRoom: state.inRoom.concat(action.payload)
+                schedule: state.schedule.filter(patient => patient.single_player_patient.id !== action.payload.single_player_patient.id),
+                inRoom: action.payload
             };
-        case 'DELETE_FROM_ROOM':
+        case 'BACK_TO_SCHEDULE':
             return {...state,
                 schedule: state.schedule.concat(action.payload),
-                inRoom: state.inRoom.filter(patient => patient.id !== action.payload.id),
+                inRoom: false,
             };
+        case 'CHECK_OUT':
+            return {...state,
+                inRoom: false,
+            };
+
         case 'ADD_ALL_PATIENTS':
             return {...state,
                 allPatients: action.payload.patients

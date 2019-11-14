@@ -49,6 +49,10 @@
   height:70vh;
 }
 
+.homePatientList h3 {
+  color: rgba(255, 255, 255, 0.815);
+}
+
 .homeProblemList {
   grid-area: b;
   min-width: 70%;
@@ -59,6 +63,24 @@
   width: 100%;
 }
 
+
+.hoverColor {
+  display: flex;
+  text-align: center;
+  margin: auto;
+  color: rgba(255, 255, 255, 0.815);
+}
+
 .hoverColor:hover {
-  color: rgb(255, 243, 82);    
+  color: rgb(254, 255, 188); 
+
+}
+
+.ReactTable {
+  height: 80vh;
+  vertical-align: middle !important;
+}
+
+.i.large.icon {
+  padding: 0 0 !important;
 }
