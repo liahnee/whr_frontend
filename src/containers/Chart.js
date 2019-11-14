@@ -2,9 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import NavBarOpener from '../componentsNavBar/NavBarOpener';
 import LoggedInHOC from '../HOC/SignedIn';
-import { Form, Dropdown, Button, Card, Popup, Image } from 'semantic-ui-react';
+import { Form, Dropdown, Button, Card, Popup, Image, Icon, Input, List } from 'semantic-ui-react';
 import '../chart.css';
-import { defaultCipherList } from 'constants';
+// import { defaultCipherList } from 'constants';
+// import { thisExpression } from '@babel/types';
 
 const url = 'http://localhost:3000/api/v1/';
 
@@ -13,14 +14,16 @@ const renderFetch = (data) => {
 	const newData = [];
 	data.response.destinationEntities.map((data) => {
 		let text = data.title;
-		const value = data.title;
+		if (data.title.includes('<em')) {
+			text = text.replace("<em class='found'>", '');
+			text = text.replace('</em>', '');
+		}
+		let value = { title: text, id: data.id };
 		const { id } = data;
 		const key = data.id;
 		if (data.title.includes('<em')) {
 			text = text.replace("<em class='found'>", '');
 			text = text.replace('</em>', '');
-			value = value.replace("<em class='found'>", '');
-			value = value.replace('</em>', '');
 		}
 		newData.push({ text, value, id, key });
 		return data;
@@ -32,21 +35,31 @@ class Chart extends React.Component {
 	state = {
 		HPI: '',
 		ROS: '',
-    PE: '',
+		PE: '',
 		assessment: [],
 		prescription: [],
-    icd_11: [],
+		icd_11: [],
+		keywords: [] //// this needs to be fixed. separate dropdown? or customized dropdown.
 	};
 
 	componentDidMount() {}
 
+	findValue = (d) => {
+		const value = d.value;
+		const options = d.options;
+		let added = [];
+		value.map((each) => added.push(options.filter((option) => option.value === each)));
+		return added;
+	};
+
 	handleChange = (e, d) => {
+		console.log('handleChange d', d);
 		const key = d.name;
 		const value = d.value;
 		switch (key) {
 			case 'assessment':
 				return this.setState({
-					assessment: [ ...value ]
+					assessment: [...this.state.assessment, value]
 				});
 			case 'prescription':
 				return this.setState({
@@ -69,10 +82,14 @@ class Chart extends React.Component {
 		}
 	};
 
-	searchICD11 = async (e, d) => {
-    console.log('search ICD 11, d.value:', d.value);
-    console.log('e:', e)
-		const keyword = d.value;
+	handleSearch = async (e, d) => {
+		await this.setState({
+			keyword: d.value
+		});
+	};
+
+	searchICD11 = async () => {
+		const { keyword } = this.state;
 
 		if (this.state.result) {
 			const { result } = this.state;
@@ -94,11 +111,8 @@ class Chart extends React.Component {
 					});
 				});
 		} else {
-			const result = await fetch(url).then((resp) => resp.json());
-			this.setState({
-				result: result
-			});
-			fetch(url, {
+			const result = await fetch(url + 'icd_11').then((resp) => resp.json());
+			fetch(url + 'icd_11', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -112,46 +126,64 @@ class Chart extends React.Component {
 					console.log('post fetch, in .then data:', data);
 					const mapped = renderFetch(data);
 					this.setState({
-						icd_11: mapped
+						icd_11: mapped,
+						result: result
 					});
 				});
 		}
-  };
+	};
+
+	// diagnosisOptions = () => {
+	// 	// this.state.assessment
+	// 	const options = this.state.assessment.concat(this.state.icd_11);
+	// 	return options;
+  // };
   
-  diagnosisOptions = () => {
-    const options = this.state.assessment.concat(this.state.icd_11)
-    return options
+  deleteList = (a) => {
+    this.setState({
+      assessment: this.state.assessment.filter(each => each !== a )
+    })
   }
 
+	assessmentList = () => {
+		return (
+			<List celled horizontal>
+				{this.state.assessment.map((a) => {
+					return <List.Item> <List.Icon name='times' onClick={() => this.deleteList(a)}/><span><List.Content>{a.title} </List.Content></span></List.Item>;
+				})}
+			</List>
+		);
+	};
+
 	handleSubmit = (e) => {
-    e.preventDefault();
-    const { hpi, ros, pe } = this.state
-    fetch(url + 'icd_11', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        accept: 'application/json',
-        Authorization: 'Bearer ' + localStorage.token
-      },
-      body: JSON.stringify({ hpi, ros, pe })
-    })
-    .then(resp => resp.json)
-    .then(data => {
-      const icd_11_id = data;
-      fetch(url + 'sp_charts', {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          accept: 'application/json',
-          Authorization: 'Bearer ' + localStorage.token
-        },
-        body: JSON.stringify({ hpi, ros, pe, icd_11_id })
-      })
-      .then(resp => resp.json())
-      .then(data => console.log(data))
-      // .then(() => this.props.checkout, this.props.roomPatient(this.props.scheduled[0]))
-    })
-  };
+		e.preventDefault();
+		// const { hpi, ros, pe } = this.state;
+		// fetch(url + 'icd_11', {
+		//   method: 'POST',
+		//   headers: {
+		//     'content-type': 'application/json',
+		//     accept: 'application/json',
+		//     Authorization: 'Bearer ' + localStorage.token
+		//   },
+		//   body: JSON.stringify({ hpi, ros, pe })
+		// })
+		// .then(resp => resp.json)
+		// .then(data => {
+		//   const icd_11_id = data;
+		//   fetch(url + 'sp_charts', {
+		//     method: 'POST',
+		//     headers: {
+		//       'content-type': 'application/json',
+		//       accept: 'application/json',
+		//       Authorization: 'Bearer ' + localStorage.token
+		//     },
+		//     body: JSON.stringify({ hpi, ros, pe, icd_11_id })
+		//   })
+		//   .then(resp => resp.json())
+		//   .then(data => console.log(data))
+		//   // .then(() => this.props.checkout, this.props.roomPatient(this.props.scheduled[0]))
+		// })
+	};
 
 	gender = (gender) => {
 		switch (gender) {
@@ -195,8 +227,7 @@ class Chart extends React.Component {
 	roomPatient = (e, d) => {
 		const patient = d.options.filter((pt) => pt.value === d.value);
 		this.props.roomPatient(patient[0]);
-  };
-
+	};
 
 	render() {
 		const tempDrug = [
@@ -210,7 +241,7 @@ class Chart extends React.Component {
 				<div className="chart">
 					<div className="scheduledPatients">
 						<Dropdown
-            selectOnNavigation={false}
+							selectOnNavigation={false}
 							name="scheduledPatients"
 							placeholder="Scheduled patients"
 							fluid
@@ -221,7 +252,6 @@ class Chart extends React.Component {
 						/>
 					</div>
 
-
 					<Card color="teal">
 						<Image src={`https://react.semantic-ui.com/images/${this.gender(this.ptEmpty('gender'))}`} />
 						<Card.Content>
@@ -230,14 +260,15 @@ class Chart extends React.Component {
 							<Card.Description>
 								{this.props.patient ? (
 									<React.Fragment>
-                    {this.ccEmpty('name')}: I'm here for {this.ccEmpty('chief_complaint')}.{<br/>}{<br/>}
-                    You: When did it start? {<br />}{<br/>}
+										{this.ccEmpty('name')}: I'm here for {this.ccEmpty('chief_complaint')}.{<br />}
+										{<br />}
+										You: When did it start? {<br />}
+										{<br />}
 										{this.ccEmpty('name')}: It all started couple days ago when I was hiking. ....
 									</React.Fragment>
 								) : null}
 							</Card.Description>
 						</Card.Content>
-
 
 						<Card.Content extra>
 							{this.props.patient ? (
@@ -268,21 +299,23 @@ class Chart extends React.Component {
 					</Card>
 
 
+
 					<Form onSubmit={this.handleSubmit} className="chartgrid">
 						<Form.Group className="HPI">
 							<Form.TextArea
 								disabled={this.props.patient ? false : true}
 								label="HPI"
 								placeholder=""
-								onChange={(e, d) => this.handleChange(e, d)}
+								onChange={this.handleChange}
 							/>
 						</Form.Group>
 						<Form.Group className="ROS">
 							<Form.TextArea
 								disabled={this.props.patient ? false : true}
 								label="ROS"
+								name="ROS"
 								placeholder=""
-								onChange={(e, d) => this.handleChange(e, d)}
+								onChange={this.handleChange}
 							/>
 						</Form.Group>
 						<Form.Group className="PE">
@@ -290,34 +323,49 @@ class Chart extends React.Component {
 								disabled={this.props.patient ? false : true}
 								label="PE"
 								placeholder=""
-								onChange={(e, d) => this.handleChange(e, d)}
+								onChange={this.handleChange}
 							/>
 						</Form.Group>
 						<Form.Group grouped className="AP">
 							<label>Diagnosis</label>
+
+							<div className="search">
+								<Input
+									disabled={this.props.patient ? false : true}
+									className="diagnosisSearch"
+									placeholder="Search for ICD-11"
+									onChange={this.handleSearch}
+								/>
+								<Icon
+                  name='search'
+									size="large"
+									className="diagnosisSearch"
+                  // icon={<Icon name="search" />}
+                  onClick={(e, d) => this.searchICD11(e, d)}
+								/>
+							</div>
+
 							<div className="diagnosisDropdown">
 								<Dropdown
-                  disabled={this.props.patient ? false : true}
-                  selectOnNavigation={false}
+									disabled={this.props.patient ? false : true}
+									selectOnNavigation={false}
 									className="diagnosis"
 									name="assessment"
 									placeholder="Diagnosis"
 									fluid
-									multiple
 									search
 									selection
-									allowAdditions
 									closeOnEscape
 									selectOnNavigation={false}
-									options={this.diagnosisOptions()}
-									onAddItem={this.searchICD11}
+									options={this.state.icd_11}
 									onChange={this.handleChange}
 								/>
 							</div>
+							<div className="assessmentList">{this.assessmentList()}</div>
 							<label>Prescription</label>
 							<Dropdown
-                disabled={this.props.patient ? false : true}
-                selectOnNavigation={false}
+								disabled={this.props.patient ? false : true}
+								selectOnNavigation={false}
 								className="rx"
 								name="prescription"
 								placeholder="Rx"
@@ -329,9 +377,11 @@ class Chart extends React.Component {
 								onChange={this.handleChange}
 							/>
 						</Form.Group>
-						<Button className="signoff">Sign off</Button>
+						<Button className="signoff" disabled={this.props.patient ? false : true}>
+							{' '}
+							Sign off
+						</Button>
 					</Form>
-
 
 					<div className="barGrid">
 						<NavBarOpener />

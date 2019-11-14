@@ -49,7 +49,7 @@
   /* background: rgba(0, 0, 0, 0.452) ; */
 }
 
-/* .diagnosisDropdown {
+/* .search {
   display: grid;
   grid-template-columns: 85% 15%;
   width: 36vw;
@@ -57,30 +57,32 @@
 
 .diagnosis {
   width: 36vw !important;
-  /* border-bottom-right-radius: 0 !important;
-  border-top-right-radius: 0 !important; */
+  border-radius: none !important;
   background: rgba(0, 0, 0, 0.39) !important;
 }
 
 /* .diagnosisBtn {
-  margin: 0 0 !important;
 
-  border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
-  background: rgba(0, 0, 0, 0.39) !important;
 } */
 
 .rx {
   width: 36vw !important;
-  background: rgba(0, 0, 0, 0.39) !important; 
+  background: rgba(0, 0, 0, 0.562) !important; 
 }
 
 .ui.search.dropdown>input.search {
   color:white;
 }
+.ui.search.dropdown>input {
+  color:white;
+}
+.ui.search.dropdown>input.focus {
+  color:white;
+}
+
 
 .chart .menu {
-  background: rgba(0, 0, 0, 0.452) !important;
+  background: rgba(0, 0, 0, 0.877) !important;
   color: white !important; 
 }
 
@@ -93,7 +95,7 @@
 }
 
 .chart .ui.dropdown .menu>.message {
-  color: rgba(255, 255, 255, 0.555);
+  color: rgba(0, 0, 0, 0.555);
 }
 
 
@@ -122,4 +124,84 @@
 
 .ui.card>.content>.description {
   color: white;
+}
+
+.search {
+  text-align: left;
+}
+
+.chartgrid .ui.form input[type=text] {
+  left: 0;
+  background: rgba(0, 0, 0, 0.39) !important;
+  width: 32vw !important;
+  color: white !important; 
+  margin-top: 1vh;
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-right: 0;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+
+
+}
+
+/* .search .ui.input {
+  left: 0;
+  background: rgba(0, 0, 0, 0.39) !important;
+  width: 32vw !important;
+  color: white !important; 
+  margin-top: 1vh;
+  margin-top: 1vh;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+} */
+/* .search input{
+  left: 0;
+  background: rgba(0, 0, 0, 0.39) !important;
+  width: 32vw !important;
+  color: white !important; 
+  margin-top: 1vh;
+  margin-top: 1vh;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+} */
+
+.chartgrid .ui.button {
+  background: rgba(0, 0, 0, 0.39) !important;
+  /* padding: 9.5px 14px; */
+}
+.chartgrid .ui.button:hover {
+  background: rgba(150, 150, 150, 0.678) !important;
+  /* padding: 9.5px 14px; */
+}
+
+.diagnosisSearch i.icon {
+  width: 4vw !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  margin: 0 0 !important;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.39) !important;
+  background: rgba(0, 0, 0, 0.39) !important;
+}
+
+.assessmentList {
+  overflow: scroll;
+  width: 36vw;
+  background: none !important;
+  height: 16vh;
+  color: white;
+  text-align: left;
+}
+
+.assessmentList .ui.horizontal.celled.list>.item {
+  display: grid;
+  grid-template-columns: 10% 90%;
+  width: 30vw !important;
+}
+
+.assessmentList  .content {
+  height: 3vh;
 }

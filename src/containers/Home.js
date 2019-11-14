@@ -19,7 +19,8 @@ class Home extends React.Component {
 
 	componentDidMount() {
 		// console.log(this.props.allPatients)
-		if (this.props.allPatients.length === 0) {
+
+		if (!this.props.allPatients || this.props.allPatients.length === 0) {
 			fetch(url + 'single_player_patients', {
 				headers: {
 					'Content-Type': 'application/json',
@@ -33,6 +34,7 @@ class Home extends React.Component {
 		} else {
 			this.mapPatients();
 		}
+
 	}
 
 	mapPatients = () => {

@@ -1,0 +1,36 @@
+.newPatientFormSection {
+    margin-top: 10vh;
+}
+.newPatientForm .ui.button {
+    margin-top:3vh;
+    background: rgba(0, 0, 0, 0.466);
+    color: white;
+}
+.newPatientForm .ui.button:hover {
+    margin-top:3vh;
+    background: rgba(68, 218, 255, 0.466);
+    color: white;
+}
+
+.newPatientForm .ui.dropdown {
+    background: rgba(0, 0, 0, 0.514) !important;
+    color:white;
+}
+
+.newPatientForm .ui.dropdown .menu {
+    background: none!important;
+    color:white;
+}
+.newPatientForm .ui.dropdown .menu>.item {
+    background: rgba(0, 0, 0, 0.678) !important;
+    color:white;
+}
+
+.newPatientForm .ui.input input {
+    background: rgba(0, 0, 0, 0.514) !important;
+    color:white;
+}
+
+.femaleDiv {
+    margin-bottom: 3vh;
+}

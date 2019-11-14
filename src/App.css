@@ -98,6 +98,13 @@ margin-left: 24vw;
   font-weight: 400;
 }
 
+
+
+.signin .ui.form .field .ui.input input{
+  background: #49494900 !important;
+}
+
+
 .signinPassword input {
   background: #49494962 !important;
   min-width: 150px !important;
@@ -297,4 +304,29 @@ margin-left: 24vw;
   margin-right: auto;
   margin-top:8vh;
   margin-bottom: 8vh;
+}
+
+#signup {
+  background-image: url('./assets//ww.jpg');
+}
+
+#signup .ui.header {
+  background: none !important;
+  color: white;
+}
+
+#signup .content, .actions{
+  background: none !important;
+  color: white;
+}
+
+#signup i.icon:hover {
+  color: black;
+}
+
+#signup .button {
+  background: none;
+}
+#signup .button:hover {
+  color: white;
 }

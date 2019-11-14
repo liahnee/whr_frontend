@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, Form, Header, Input, Button, Message } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import '../home.css'
 
 class NewCC extends React.Component {
 	state = {};
@@ -39,7 +40,7 @@ class NewCC extends React.Component {
 					<Form error>
 						<Form.Field inline>
 							<label>Chief Complaint:</label>
-							<Input placeholder="cc" onChange={this.handleCC} />
+							<Input id="cc" placeholder="chief complaint" onChange={this.handleCC} />
 						</Form.Field>
 						{this.state.error ? (
 							<Message

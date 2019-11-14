@@ -1,4 +1,5 @@
 import React from 'react';
+import '../newpt.css'
 import { connect } from 'react-redux';
 import NavBarOpener from '../componentsNavBar/NavBarOpener';
 import LoggedInHOC from '../HOC/SignedIn';
@@ -291,9 +292,12 @@ class NewPatientForm extends React.Component {
                             <span> Personality
                                 <Dropdown
                                     name='personality'
+                                    selectOnNavigation={false}
+                                    closeOnBlur
+                                    closeOnChange
                                     fluid
                                     selection
-                                    simple
+                                    // simple
                                     item
                                     options={personality}
                                     onChange={(e,d) => this.handleChange(e, d)}
@@ -302,9 +306,12 @@ class NewPatientForm extends React.Component {
                             <span> Lifestyle
                                 <Dropdown
                                     name='lifestyle'
+                                    selectOnNavigation={false}
+                                    closeOnBlur
+                                    closeOnChange
                                     fluid
                                     selection
-                                    simple
+                                    // simple
                                     item
                                     options={lifestyle}
                                     onChange={(e,d) => this.handleChange(e, d)}
@@ -313,9 +320,12 @@ class NewPatientForm extends React.Component {
                             <span> Finance
                                 <Dropdown
                                     name='finance'
+                                    selectOnNavigation={false}
+                                    closeOnBlur
+                                    closeOnChange
                                     fluid
                                     selection
-                                    simple
+                                    // simple
                                     item
                                     options={finance}
                                     onChange={(e,d) => this.handleChange(e, d)}

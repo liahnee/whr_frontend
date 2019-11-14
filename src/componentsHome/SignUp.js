@@ -105,21 +105,20 @@ class SignUp extends React.Component {
 
     render() {
         return (
-            <Modal dimmer={true} size='small' open={this.props.open} onClose={this.props.toggle} closeIcon id="signup">
+            <Modal dimmer={true} size='mini' open={this.props.open} onClose={this.props.toggle} closeIcon id="signup">
                 <Header>Sign Up</Header>
                 <Modal.Content>
                     <Form error>
                         <Form.Field inline>
-                            <label>Username:</label>
-                            <Input placeholder='username' onChange={this.handleUsername}/>
+                            
+                            <Input icon='user' iconPosition='left' placeholder='Username' onChange={this.handleUsername}/>
                         </Form.Field>
                         <Form.Field inline>
-                            <Input icon='lock' iconPosition='left' type={this.state.showPassword} placeholder='password' onChange={this.handlePassword}/>
+                            <Input icon='lock' iconPosition='left' type={this.state.showPassword} placeholder='Password' onChange={this.handlePassword}/>
                             <Icon name='eye' onClick={this.showPassword}/>
                         </Form.Field>
                         <Form.Field inline>
-                            <label>Name:</label>
-                            <Input placeholder='name' onChange={this.handleName}/><br/>
+                            <Input icon='user circle' iconPosition='left' placeholder='Display Name' onChange={this.handleName}/><br/>
                         </Form.Field>
                         {this.state.error? <Message className='loginError'
                             error

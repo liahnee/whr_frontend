@@ -48,6 +48,7 @@ class App extends React.Component {
 		this.props.toggle();
 		localStorage.clear();
 		this.props.logout();
+		window.location.reload();
 	};
 
 	signedNav = () => {
@@ -70,7 +71,7 @@ class App extends React.Component {
 						width="very thin"
 					>
 						<Menu.Item as={Link} to="/">
-							<Icon name="calendar alternate outline" />
+							<Icon name="address book outline" />
 							Home
 						</Menu.Item>
 						{this.props.chart === false ? (
@@ -100,18 +101,53 @@ class App extends React.Component {
 								Chart
 							</Menu.Item>
 						)}
+						
 						<Menu.Item as={Link} to="/new_patient">
 							<Icon name="add user" />
 							New Pt
 						</Menu.Item>
+						<Popup
+								// offset="0, 200px"
+								pinned={true}
+								hoverable
+								on="hover"
+								trigger={
 						<Menu.Item as={Link} to="/schedule">
-							<Icon name="address book outline" />
-							Credit
+							<Icon name="calendar alternate outline" />
+							Schedule
 						</Menu.Item>
+						}
+						content='In development. Monthly schedule for the patients to be scheduled.'
+						style={{
+							bordeRadius: 5,
+							opacity: 0.7,
+							padding: '2em',
+							position: 'fixed',
+							marginTop: '50px'
+						}}
+						inverted
+					/>
+					<Popup
+								// offset="0, 200px"
+								pinned={true}
+								hoverable
+								on="hover"
+								trigger={
 						<Menu.Item as={Link} to="/profile">
 							<Icon name="user md" />
 							Profile
 						</Menu.Item>
+					}
+						content='In development. Can delete patients here. Can change your profile pic, names, etc.'
+						style={{
+							bordeRadius: 5,
+							opacity: 0.7,
+							padding: '2em',
+							position: 'fixed',
+							marginTop: '50px'
+						}}
+						inverted
+					/>
 						<Menu.Item onClick={() => this.handleLogout()} position="right">
 							<Icon name="sign out" />
 							Sign-out
