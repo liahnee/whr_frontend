@@ -1,3 +1,9 @@
+.scheduledPatients .ui.fluid.dropdown{
+  background: rgba(0, 0, 0, 0.493) !important; 
+  width: 14vw !important;
+  margin-left: 3vw;
+  margin-top: 2px;
+}
 
 .chart .ui.teal.card {
   margin-top: 1vh;
@@ -56,20 +62,20 @@
   background: rgba(0, 0, 0, 0.39) !important;
 }
 
-.diagnosisBtn {
+/* .diagnosisBtn {
   margin: 0 0 !important;
 
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
   background: rgba(0, 0, 0, 0.39) !important;
-}
+} */
 
 .rx {
   width: 36vw !important;
   background: rgba(0, 0, 0, 0.39) !important; 
 }
 
-.chart .ui.search.dropdown>input.search {
+.ui.search.dropdown>input.search {
   color:white;
 }
 
@@ -102,3 +108,18 @@
   bottom: -10vh;
 }
 
+.checkoutBtn.ui.small.button {
+  height: 22px;
+  padding: 5px 5px;
+  margin-top: 5px;
+  background: rgba(0, 0, 0, 0);
+  color: white;
+}
+
+.checkoutBtn.ui.small.button:hover {
+  color: rgb(255, 255, 145);
+}
+
+.ui.card>.content>.description {
+  color: white;
+}

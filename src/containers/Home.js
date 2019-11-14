@@ -9,19 +9,6 @@ import NewCC from '../componentsHome/NewCC';
 
 const url = 'http://localhost:3000/api/v1/';
 
-const scheduleColumns = [
-	{
-		Header: 'Patient',
-		accessor: 'name',
-		Cell: ({ row }) => <h3>{row.name}</h3>
-	},
-	{
-		Header: 'Chief Complaint',
-		accessor: 'chief_complaint',
-		Cell: ({ row }) => <h3>{row.chief_complaint}</h3>
-	}
-];
-
 class Home extends React.Component {
 	state = {
 		newCC: false, // newCC modal
@@ -100,9 +87,15 @@ class Home extends React.Component {
 		}
 	};
 
+	checkout = (row) => {
+		console.log(row._original)
+		
+	}
+
 	render() {
 		const patientColumns = [
-			{
+			{Header: () => <h4>All Patients</h4>,
+			columns: [{
 				Header: () => <div className="newCCLabel" />,
 				Cell: ({ row }) => (
 					<div className="newCCBtn">
@@ -122,11 +115,15 @@ class Home extends React.Component {
 					);
 				},
 				width: 100
-			}
+			}]
+		}
+			
 		];
 
 		const ccColumns = [
-			{
+			{Header: () => <h4>Patient Information</h4>,
+			columns: [{
+			
 				Header: 'Chief Complaint',
 				accessor: 'chief_complaint',
 				Cell: ({ row }) => {
@@ -145,8 +142,33 @@ class Home extends React.Component {
 			{
 				Header: 'Recovery Rate',
 				accessor: 'recovery_rate'
-			}
+			}]}
 		];
+
+		const scheduleColumns = [
+			{Header: () => <h4>Patients on Schedule</h4>,
+			columns: [
+			{
+				Header: () => <div className="newCCLabel" />,
+				Cell: ({ row }) => (
+					<div className="newCCBtn">
+						<Icon circular name="minus" size="large" onClick={() => this.props.checkout(row._original)} />
+					</div>
+				),
+				width: 50
+			},
+			{
+				Header: 'Patient',
+				accessor: 'name',
+				Cell: ({ row }) => <h3>{row.name}</h3>
+			},
+			{
+				Header: 'Chief Complaint',
+				accessor: 'chief_complaint',
+				Cell: ({ row }) => <h3>{row.chief_complaint}</h3>
+			}]}
+		];
+		
 
 		return (
 			<div className="homePG">
@@ -207,7 +229,8 @@ const dToP = (dispatch) => ({
 	addCC: (data) => dispatch({ type: 'ADD_CC', payload: data }), //data should hold data.patient and either data.newcc or data.cc
 
 	selectForSchedule: (data) => dispatch({ type: 'ADD_TO_SCHEDULE', payload: data }),
-	openRoom: () => dispatch({ type: 'ROOM_OPEN' })
+	openRoom: () => dispatch({ type: 'ROOM_OPEN' }),
+	checkout: (data) => dispatch({ type: 'CHECK_OUT', payload: data })
 });
 
 export default connect(sToP, dToP)(Home);

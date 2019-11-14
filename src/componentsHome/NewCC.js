@@ -8,6 +8,7 @@ class NewCC extends React.Component {
 	postCC = () => {
 		const { chief_complaint } = this.state;
 		const single_player_patient = this.props.patient.id;
+		const recovery_rate = 0
 		fetch('http://localhost:3000/api/v1/sp_chief_complaints', {
 			method: 'POST',
 			headers: {
@@ -15,7 +16,7 @@ class NewCC extends React.Component {
 				Accept: 'application/json',
 				Authorization: 'Bearer ' + localStorage.token
 			},
-			body: JSON.stringify({ sp_chief_complaint: { chief_complaint, single_player_patient } })
+			body: JSON.stringify({ sp_chief_complaint: { chief_complaint, single_player_patient, recovery_rate } })
 		})
     .then(() => {
       this.props.toggle();

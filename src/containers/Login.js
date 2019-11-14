@@ -79,7 +79,7 @@ class Signin extends React.Component {
                             <Label className="signinDr">Dr.</Label>
                             <Input transparent placeholder='   USERNAME' className="signinUsername" onChange={this.handleUsername.bind(this)}/>
                         </Form.Field>
-                        <Form.Field inline >
+                        <Form.Field className='signinPassword' inline > password 
                             <input type='password' value={this.state.password} onChange={this.handlePassword.bind(this)}/> 
                         </Form.Field>
                         <Button basic inverted color='blue' id="signinBtn" style={{border:"none"}}> Enter </Button>
