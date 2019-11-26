@@ -1,68 +1,50 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Web Health Recording (WHR)
 
-In the project directory, you can run:
+This project was built as a tool for medical scribes in training, pre-med students, and others to practice taking in-clinic notes.
+Users can: 
+1. create an account
+2. create multiple patients up to 10 
+3. create multiple chief complaints per patient
+4. create multiple charts/notes per chief complaint
 
-### `yarn start`
+### Sets used
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+React, Redux, Semantic-UI-React, React Table, HOC, yarn
+[Link to Frontend Git](https://github.com/liahnee/whr_frontend)
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Ruby on Rails, RestClient, Postgres, JWT
+[Link to Backend Git](https://github.com/liahnee/whr_backend)
 
-### `yarn test`
+### Home 
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+Left Table: List of all patients that User created. Patient name can be clicked to view chief complaints. New chief complaint can be added with icon to the of the name. 
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Center Table: List of chief complaints of the patient. The arrow on the left opens list of past charts created. Clicking on the chief complaint adds patient to the schedule with the selected chief complaint. <br />
+**Note: If the patient is already selected in the room, you need to 'checkout' the patient before rescheduling.**
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Right Table: List of selected patients to be seen in the room. 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Room 
 
-### `yarn eject`
+Top left dropdown: User has list of scheduled patients to choose from. Patients can be switched around without being checked out. 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Patient card: Name, chief complaint, and checkout button to unschedule the patient without creating a chart. 
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Dates: required to create a chart. 
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+HPI, ROS, PE: Places to take notes.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Diagnosis search bar: Enter in a keyword to search through ICD-11 and click on the magnifying glasses icon on the right. Diagnosis Dropdown menu will be updated with 50 search results. 
 
-## Learn More
+Prescription: Will be updated in the future.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### New Pt
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+All fields except additional questions for females must be filled out to create a patient. 
+First and last names must be between 2~12 letters long.
+Age must be an integer between 1~120.
 
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Personality, lifestyle, and finance category will be used in future updates. They do not affect current activities. 
