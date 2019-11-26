@@ -1,5 +1,6 @@
 .newPatientFormSection {
-    margin-top: 10vh;
+    margin-top: 20vh;
+    height: 75vh;
 }
 .newPatientForm .ui.button {
     margin-top:3vh;
@@ -42,4 +43,30 @@
 
 .femaleDiv {
     margin-bottom: 3vh;
+}
+
+.ui.error.message {
+    height: 50%;
+    margin-left: auto;
+    margin-right: 2%;
+}
+
+.newptModalBtn {
+    height: 40px;
+    width: 100px;
+    background: rgba(0, 0, 0, 0.514) ;
+    padding: 10px;
+    border-radius: 5%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.newptModalBtn:hover {
+    background: rgba(255, 224, 50, 0.726);
+}
+
+.newptModalBtn h3 {
+    display: block;
+    bottom: auto;
+    top: auto;
 }

@@ -3,26 +3,26 @@ import '../assets/stylesheets/Schedule.css';
 import { connect } from 'react-redux';
 import NavBarOpener from '../componentsNavBar/NavBarOpener';
 import LoggedInHOC from '../HOC/SignedIn';
-import ReactTable from 'react-table';
-import { Icon } from 'semantic-ui-react';
+// import ReactTable from 'react-table';
+// import { Icon } from 'semantic-ui-react';
 
 const url = 'http://localhost:3000/api/v1/';
 
-const ccColumns = [{
-  Header: 'Chief Complaint',
-  accessor: 'chief_complaint'
-}]
+// const ccColumns = [{
+//   Header: 'Chief Complaint',
+//   accessor: 'chief_complaint'
+// }]
 
-const scheduleColumns = [
-  {
-    Header: 'Patient',
-    accessor: 'name'
-  },
-  {
-    Header: 'Chief Complaint',
-    accessor: 'chief_complaint'
-  }
-]
+// const scheduleColumns = [
+//   {
+//     Header: 'Patient',
+//     accessor: 'name'
+//   },
+//   {
+//     Header: 'Chief Complaint',
+//     accessor: 'chief_complaint'
+//   }
+// ]
 
 class Schedule extends React.Component {
 	state = {
@@ -100,26 +100,26 @@ class Schedule extends React.Component {
   }
 
 	render() {
-		const patientColumns = [
-			{
-				Header: () => <div className="newCCLabel" />,
-				Cell: ({ row }) => (
-					<div className="newCCBtn">
-						<Icon circular name="plus circle" size="large" onClick={() => this.handleAddCC(row)} />
-					</div>
-				),
-				width: 50
-			},
-			{
-				Header: 'Patient',
-        accessor: 'name',
-        Cell: ({ row }) => { return (
-        <label onClick={() => this.handleRenderCC(row)}>{row.name}</label>
-        )}
-        ,
-				width: 100
-			}
-    ];
+		// const patientColumns = [
+		// 	{
+		// 		Header: () => <div className="newCCLabel" />,
+		// 		Cell: ({ row }) => (
+		// 			<div className="newCCBtn">
+		// 				<Icon circular name="plus circle" size="large" onClick={() => this.handleAddCC(row)} />
+		// 			</div>
+		// 		),
+		// 		width: 50
+		// 	},
+		// 	{
+		// 		Header: 'Patient',
+    //     accessor: 'name',
+    //     Cell: ({ row }) => { return (
+    //     <label onClick={() => this.handleRenderCC(row)}>{row.name}</label>
+    //     )}
+    //     ,
+		// 		width: 100
+		// 	}
+    // ];
     
 
 

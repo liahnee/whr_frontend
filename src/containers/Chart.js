@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import NavBarOpener from '../componentsNavBar/NavBarOpener';
 import LoggedInHOC from '../HOC/SignedIn';
+import { withRouter } from 'react-router-dom';
 import { Form, Dropdown, Button, Card, Popup, Image, Icon, Input, List, Modal, Message, Header } from 'semantic-ui-react';
 import '../chart.css';
 // import { defaultCipherList } from 'constants';
@@ -10,7 +11,6 @@ import '../chart.css';
 const url = 'http://localhost:3000/api/v1/';
 
 const renderFetch = (data) => {
-	console.log('data.response', data.response.destinationEntities);
 	const newData = [];
 	data.response.destinationEntities.map((data) => {
 		let text = data.title;
@@ -78,9 +78,9 @@ class Chart extends React.Component {
 				return this.setState({
 				pe: value
 				});
-			case 'chart_date':
+			case 'visit_date':
 				return this.setState({
-				chart_date: value
+				visit_date: value
 				});
 			default:
 				return null;
@@ -162,7 +162,7 @@ class Chart extends React.Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-    const { hpi, ros, pe, chart_date } = this.state;
+    const { hpi, ros, pe, visit_date } = this.state;
     const sp_chief_complaint_id = this.props.patient.id
 		// fetch(url + 'icd_11', {
 		//   method: 'POST',
@@ -183,12 +183,33 @@ class Chart extends React.Component {
 		      accept: 'application/json',
 		      Authorization: 'Bearer ' + localStorage.token
 		    },
-		    body: JSON.stringify({ sp_chart: { hpi, ros, pe, sp_chief_complaint_id, chart_date}})
+		    body: JSON.stringify({ sp_chart: { hpi, ros, pe, sp_chief_complaint_id, visit_date}})
 		  })
-		  .then(resp => resp.json())
-		  .then(data => console.log(data))
-		  // .then(() => this.props.checkout, this.props.roomPatient(this.props.scheduled[0]))
-		// })
+      .then((resp) => {
+				if (!resp.ok) {
+					console.log('resp is not okay');
+					this.setState({
+                        error: true
+					});
+				} else {
+					console.log('resp is ok', resp);
+					return resp.json();
+				}
+			})
+			.then((data) => {
+				console.log('newpatientform, data post submit and json:', data);
+				if (data) {
+					if (data.error) {
+						this.setState({
+							error: true,
+							error_msg: data.error
+						});
+					} else {
+            this.props.checkout();
+						this.props.history.push('/');
+					}
+				}
+			});
 	};
 
 	gender = (gender) => {
@@ -313,7 +334,7 @@ class Chart extends React.Component {
 					</Card>
 
 
-          <Input className="chartDate" type="date" name="chart_date" onChange={(e, d) => this.handleChange(e, d)} />
+          <Input className="chartDate" type="date" name="visit_date" onChange={(e, d) => this.handleChange(e, d)} />
 					<Form onSubmit={this.handleSubmit} className="chartgrid">
 						<Form.Group className="hpi">
 							<Form.TextArea
@@ -408,7 +429,7 @@ class Chart extends React.Component {
             <Header>{this.props.patient.chief_complaint}</Header>
 						<List divided relaxed>
 
-							<List.Item icon="calendar" content={this.state.chart_date} />
+							<List.Item icon="calendar" content={this.state.visit_date} />
 							<List.Item icon="history" content={this.state.hpi} />
 							<List.Item icon="user" content={this.state.ros} />
 							<List.Item icon="stethoscope" content={this.state.pe} />
@@ -456,4 +477,4 @@ const dToP = (dispatch) => ({
 	checkout: (data) => dispatch({ type: 'CHECK_OUT', payload: data })
 });
 
-export default connect(sToP, dToP)(LoggedInHOC(Chart));
+export default withRouter(connect(sToP, dToP)(LoggedInHOC(Chart)));

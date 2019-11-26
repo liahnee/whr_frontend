@@ -1,6 +1,6 @@
 export default function manageNavBar(state = {
     show: false,
-    chart: false
+    room: false
 }, action) {
     switch (action.type) {
         case 'TOGGLE':
@@ -9,11 +9,11 @@ export default function manageNavBar(state = {
             }
         case 'ROOM_OPEN':
             return {...state,
-                chart: true
+                room: true
             }
         case 'ROOM_EMPTY':
             return {...state,
-                chart: false
+                room: false
             }
         default:
             return state;

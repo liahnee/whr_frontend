@@ -66,27 +66,7 @@ class App extends React.Component {
 			})
 				.then((resp) => resp.json())
 				.then((data) => this.props.addAllPatients(data))
-				.then(() => {
-					const patientList = this.props.allPatients.map((patient) => {
-						return { name: `${patient.first_name} ${patient.last_name}`, id: patient.id };
-					});
-					this.setState({
-						patients: [ ...patientList ]
-					});
-				});
 		} 
-		// else {
-		// 	fetch(url + 'single_player_patients', {
-		// 		headers: {
-		// 			'Content-Type': 'application/json',
-		// 			Accept: 'application/json',
-		// 			Authorization: 'Bearer ' + localStorage.token
-		// 		}
-		// 	})
-		// 		.then((resp) => resp.json())
-		// 		.then((data) => this.props.addAllPatients(data))
-		// 		.then(() => this.mapPatients());
-		// }
 	}
 
 	render() {
@@ -108,15 +88,15 @@ class App extends React.Component {
 							<Icon name="address book outline" />
 							Home
 						</Menu.Item>
-						{this.props.chart === false ? (
+						{!this.props.room ? (
 							<Popup
-								// offset="0, 200px"
 								pinned={true}
 								hoverable
 								on="hover"
 								trigger={
 									<Menu.Item disabled>
-										<Icon name="clipboard outline" />Chart
+										<Icon name="clipboard outline" />
+										Room
 									</Menu.Item>
 								}
 								content="There is no patient in the schedule"
@@ -130,9 +110,9 @@ class App extends React.Component {
 								inverted
 							/>
 						) : (
-							<Menu.Item as={Link} to="/chart">
+							<Menu.Item as={Link} to="/room">
 								<Icon name="clipboard outline" />
-								Chart
+								Room
 							</Menu.Item>
 						)}
 						
@@ -148,7 +128,7 @@ class App extends React.Component {
 								trigger={
 						<Menu.Item as={Link} to="/schedule">
 							<Icon name="calendar alternate outline" />
-							Schedule
+							Follow Up
 						</Menu.Item>
 						}
 						content='In development. Monthly schedule for the patients to be scheduled.'
@@ -204,8 +184,8 @@ class App extends React.Component {
 					<Route exact path="/schedule">
 						<Schedule />
 					</Route>
-					<Route exact path="/chart">
-						{this.props.chart === false ? <Redirect to="/" /> : <Chart />}
+					<Route exact path="/room">
+						{!this.props.room ? <Redirect to="/" /> : <Chart />}
 					</Route>
 					<Route exact path="/new_patient">
 						<NewPatientForm updatePatientList={this.updatePatientList}/>
@@ -220,7 +200,7 @@ const sToP = (state) => {
 	return {
 		loggedin: state.manageLogin.loggedin,
 		show: state.manageNavBar.show,
-		chart: state.manageNavBar.chart
+		room: state.manageNavBar.room
 	};
 };
 

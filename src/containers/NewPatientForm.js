@@ -133,7 +133,6 @@ class NewPatientForm extends React.Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-		const user_id = this.props.id;
 		const {
 			first_name,
 			last_name,
@@ -168,8 +167,7 @@ class NewPatientForm extends React.Component {
 					last_menstruation,
 					personality,
 					lifestyle,
-					finance,
-					user_id
+					finance
 				}
 			})
 		})
@@ -177,7 +175,7 @@ class NewPatientForm extends React.Component {
 				if (!resp.ok) {
 					console.log('resp is not okay');
 					this.setState({
-						error: true
+                        error: true
 					});
 				} else {
 					console.log('resp is ok', resp);
@@ -198,7 +196,13 @@ class NewPatientForm extends React.Component {
 					}
 				}
 			});
-	};
+    };
+    
+    closed = () => {
+        this.setState({
+            error: false
+        })
+    }
 
 	render() {
 		const gender = [
@@ -294,7 +298,10 @@ class NewPatientForm extends React.Component {
 									fluid
 									name="age"
 									label="Age"
-									placeholder="Age"
+                                    placeholder="Age"
+                                    type="number"
+                                    min="0"
+                                    max="120"
 									onChange={(e, d) => this.handleChange(e, d)}
 								/>
 							</Form.Group>
@@ -391,7 +398,7 @@ class NewPatientForm extends React.Component {
 								/>
 							</span>
 						</Form>
-						<Modal size="small" trigger={<Button>Confirm</Button>}>
+						<Modal size="small" trigger={<h4 className="newptModalBtn">Confirm</h4>} onClose={() => this.closed()}>
 							<Modal.Header>
 								{this.state.first_name} {this.state.last_name}
 							</Modal.Header>

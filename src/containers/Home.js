@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import NavBarOpener from '../componentsNavBar/NavBarOpener';
 import ReactTable from 'react-table';
 import NewCC from '../componentsHome/NewCC';
+import ChartRecord from '../componentsHome/ChartRecordModal';
 
 const url = 'http://localhost:3000/api/v1/';
 
@@ -14,13 +15,12 @@ class Home extends React.Component {
 		newCC: false, // newCC modal
 		ccList: [],
 		patients: [], // table data
-		scheduledPatients: [] //table data
+		scheduledPatients: [], //table data
+		selectedCC: {}
 	};
 
 	componentDidMount() {
-		// console.log(this.props.allPatients)
 
-		// this.props.updatePatientList()
 		if (!this.props.allPatients || this.props.allPatients.length === 0 || this.props.allPatients) {
 			fetch(url + 'single_player_patients', {
 				headers: {
@@ -30,13 +30,11 @@ class Home extends React.Component {
 				}
 			})
 				.then((resp) => resp.json())
-				.then((data) => this.props.addAllPatients(data))
+				.then(async (data) => await this.props.addAllPatients(data))
 				.then(() => this.mapPatients());
 		} 
 
 	}
-
-
 
 	mapPatients = () => {
 		const patientList = this.props.allPatients.map((patient) => {
@@ -47,7 +45,7 @@ class Home extends React.Component {
 		});
 	};
 
-	toggle = (e) => {
+	toggleCC = (e) => {
 		this.setState({
 			newCC: !this.state.newCC
 		});
@@ -74,25 +72,54 @@ class Home extends React.Component {
 		})
 			.then((resp) => resp.json())
 			.then((data) => {
-				// if (data.length !== 0) {
 				this.props.addCC(data);
-				// } else {
-				// 	this.props.addCC([ { chief_complaint: 'No Chief Complaint' } ]);
-				// }
+				this.props.clearCharts();
+				data.map( data => this.fetchCharts(data))
 			});
 	};
 
-	renderScheduleData = (data) => {
+	// selectCC = async (data) => {
+	// 	this.props.selectCC(data)	
+	// }
+
+	fetchCharts = async (data) => {
+
+		await this.props.selectCC(data)
+		const id = data.id
+		await fetch(url + 'sp_charts/' + id, {
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+				Authorization: 'Bearer ' + localStorage.token
+			}
+		})
+			.then((resp) => resp.json())
+			.then((data) => {
+				console.log(data)
+				
+				this.props.addCharts({ [id]: data });
+			});
+	}
+
+	filterCharts = (row) => {
+		const ccID = row.id
+		const filtered = this.props.chartList.filter(cc => Object.keys(cc).includes(ccID.toString()))
+		return filtered[0][ccID]
+	}
+	
+	renderScheduleData = async (data) => {
 		data.name = data.single_player_patient.first_name + ' ' + data.single_player_patient.last_name;
-		this.props.selectForSchedule(data);
-		if (this.props.room === false) {
+		await this.props.selectForSchedule(data);
+		if (this.props.room === false && this.props.selectedForSchedule.length !== 0) {
 			this.props.openRoom();
 		}
 	};
 
-	checkout = (row) => {
-		console.log(row._original)
-		
+	checkout = async (data) => {
+		await this.props.checkout(data)
+		if (this.props.room === true && this.props.selectedForSchedule.length === 0) {
+			this.props.closeRoom();
+		}
 	}
 
 	render() {
@@ -115,9 +142,7 @@ class Home extends React.Component {
 						style={{
 							bordeRadius: 5,
 							opacity: 0.7,
-							padding: '2em',
-							// position: 'fixed',
-							// marginTop: '50px'
+							padding: '2em'
 						}}
 						inverted
 					/>
@@ -175,7 +200,7 @@ class Home extends React.Component {
 				Header: () => <div className="newCCLabel" />,
 				Cell: ({ row }) => (
 					<div className="newCCBtn">
-						<Icon circular name="minus" size="large" onClick={() => this.props.checkout(row._original)} />
+						<Icon circular name="minus" size="large" onClick={() => this.checkout(row._original)} />
 					</div>
 				),
 				width: 50
@@ -191,11 +216,35 @@ class Home extends React.Component {
 				Cell: ({ row }) => <h3>{row.chief_complaint}</h3>
 			}]}
 		];
-		
+
+		const chartColumns = [
+			// {Header: () => <h4>Patients on Schedule</h4>,
+			// columns: [
+			// {
+			// 	Header: 'Diagnosis',
+			// 	accessor: 'diagnosis',
+			// 	Cell: ({ row }) => (
+			// 		// <div className="newCCBtn" onClick={this.toggle}>
+			// 			<h3>{row.diagnosis}</h3>
+			// 		// </div>
+			// 	),
+			// },
+			{
+				Header: 'Date',
+				accessor: 'visit_date',
+				Cell: ({ row }) => <h3>{row.visit_date}</h3>
+			},
+			{
+				Header: 'Recovery Rate',
+				accessor: 'recovery_rate',
+				Cell: ({ row }) => <h3>{row.recovery_rate}</h3>
+			}
+		];
 
 		return (
 			<div className="homePG">
-				<NewCC fetch={this.fetchPatientCC} open={this.state.newCC} toggle={this.toggle} />
+				<NewCC fetch={this.fetchPatientCC} open={this.state.newCC} toggle={this.toggleCC} />
+				<ChartRecord open={this.state.newCC} toggle={this.toggleChart} />
 				<div className="homeCharts">
 					<ReactTable
 						className="homePatientList"
@@ -211,10 +260,11 @@ class Home extends React.Component {
 						columns={ccColumns}
 						defaultPageSize={10}
 						SubComponent={(row) => {
-							console.log(row);
-							return <div>list of charts for the selected problem</div>;
-						}}
-						// <ReactTable className='homeChartList' data={this.state.charts} columns={chartColumns} showPagination={false} defaultPageSize={3} />}}
+							console.log(row.row._original);
+							// return <div>list of charts for the selected problem</div>;
+							
+							return <ReactTable className='homeChartList' data={this.filterCharts(row.row._original)} columns={chartColumns} showPagination={false} defaultPageSize={50} />
+					}}
 					/>
 					<ReactTable
 						className="scheduleList"
@@ -240,7 +290,8 @@ const sToP = (state) => {
 		chartList: state.manageCharts.allCharts,
 		selectedForCC: state.manageCC.patient,
 		selectedForSchedule: state.managePatients.schedule,
-		room: state.manageNavBar.chart
+		selectedForChart: state.manageCharts.CC,
+		room: state.manageNavBar.room
 	};
 };
 
@@ -253,7 +304,12 @@ const dToP = (dispatch) => ({
 
 	selectForSchedule: (data) => dispatch({ type: 'ADD_TO_SCHEDULE', payload: data }),
 	openRoom: () => dispatch({ type: 'ROOM_OPEN' }),
-	checkout: (data) => dispatch({ type: 'CHECK_OUT', payload: data })
+	closeRoom: () => dispatch({ type: 'ROOM_EMPTY'}),
+	checkout: (data) => dispatch({ type: 'CHECK_OUT', payload: data }),
+
+	selectCC: (data) => dispatch({ type: 'SELECT_CC_TO_VIEW', payload: data}),
+	addCharts: (data) => dispatch({ type: 'ADD_CHARTS', payload: data}),
+	clearCharts: () => dispatch({ type: 'CLEAR_CHARTS'})
 });
 
 export default connect(sToP, dToP)(Home);

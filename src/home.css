@@ -59,8 +59,10 @@
   height: 70vh;
 }
 
-.homeChartList {
+.ReactTable.homeChartList {
   width: 100%;
+  height: 30vh; 
+  overflow: scroll;
 }
 
 
