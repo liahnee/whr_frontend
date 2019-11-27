@@ -32,17 +32,9 @@ class App extends React.Component {
 		}
 	}
 
-	componentDidMount() {
-		fetch(url + 'single_player_patients', {
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json',
-				Authorization: 'Bearer ' + localStorage.token
-			}
-		})
-			.then((resp) => resp.json())
-			.then((data) => this.props.addAllPatients(data));
-	}
+	// componentDidMount() {
+
+	// }
 
 	handleLogout = () => {
 		this.props.toggle();

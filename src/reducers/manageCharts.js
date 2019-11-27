@@ -17,14 +17,14 @@ export default function manageCharts(
                 return {...state,
                     allCharts: []
                 }
-            case 'OPEN':
-                return {...state,
-                    openRecord: true
-                };
-            case 'CLOSE':
-                return {...state,
-                    openRecord: false
-                };
+            // case 'OPEN_CHART_RECORD':
+            //     return {...state,
+            //         openRecord: true
+            //     };
+            // case 'CLOSE_CHART_RECORD':
+            //     return {...state,
+            //         openRecord: false
+            //     };
                 
             default:
                 return state;

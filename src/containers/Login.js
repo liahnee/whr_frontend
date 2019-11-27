@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 import SignUp from '../componentsHome/SignUp';
 
+const url = 'http://localhost:3000/api/v1/';
+
 class Signin extends React.Component {
 
     state = {
@@ -55,6 +57,17 @@ class Signin extends React.Component {
                     password: '',
                     loggedin: true
                  }))
+                 .then(() => {
+                     fetch(url + 'single_player_patients', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json',
+                        Authorization: 'Bearer ' + localStorage.token
+                    }
+                })
+                    .then((resp) => resp.json())
+                    .then((data) => this.props.addAllPatients(data));
+                })
             }           
         })
         
@@ -103,7 +116,8 @@ const sToP = state => {
 }
 
 const dToP = dispatch => ({
-    login: data => dispatch({ type: "LOGIN", payload:data})
+    login: data => dispatch({ type: "LOGIN", payload:data}),
+    addAllPatients: (data) => dispatch({ type: 'ADD_ALL_PATIENTS', payload: data })
 })
 
 export default withRouter(connect(sToP, dToP)(Signin));

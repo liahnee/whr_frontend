@@ -67,9 +67,9 @@ class SignUp extends React.Component {
 							<List.Item icon="hpi" content={this.state.gender} />
 							<List.Item icon="dna" content={this.state.sex} />
 							<List.Item icon="birthday cake" content={this.state.age} />
-							<List.Item icon="times" content={this.state.allergies} />
+							{/* <List.Item icon="times" content={this.state.allergies} />
 							<List.Item icon="pills" content={this.state.drug_allergies} />
-							<List.Item icon="band aid" content={this.state.past_medical_history} />
+							<List.Item icon="band aid" content={this.state.past_medical_history} /> */}
 							<List.Item icon="pills" content={this.state.personality} />
 							<List.Item icon="pills" content={this.state.lifestyle} />
 							<List.Item icon="pills" content={this.state.finance} />
