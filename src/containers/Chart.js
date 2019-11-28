@@ -3,7 +3,20 @@ import { connect } from 'react-redux';
 import NavBarOpener from '../componentsNavBar/NavBarOpener';
 import LoggedInHOC from '../HOC/SignedIn';
 import { withRouter } from 'react-router-dom';
-import { Form, Dropdown, Button, Card, Popup, Image, Icon, Input, List, Modal, Message, Header } from 'semantic-ui-react';
+import {
+	Form,
+	Dropdown,
+	Button,
+	Card,
+	Popup,
+	Image,
+	Icon,
+	Input,
+	List,
+	Modal,
+	Message,
+	Header
+} from 'semantic-ui-react';
 import '../chart.css';
 // import { defaultCipherList } from 'constants';
 // import { thisExpression } from '@babel/types';
@@ -39,8 +52,8 @@ class Chart extends React.Component {
 		assessment: [],
 		prescription: [],
 		icd_11: [],
-    keywords: '',
-    modal: false
+		keywords: '',
+		modal: false
 	};
 
 	componentDidMount() {}
@@ -60,7 +73,7 @@ class Chart extends React.Component {
 		switch (key) {
 			case 'assessment':
 				return this.setState({
-					assessment: [...this.state.assessment, value]
+					assessment: [ ...this.state.assessment, value ]
 				});
 			case 'prescription':
 				return this.setState({
@@ -76,15 +89,15 @@ class Chart extends React.Component {
 				});
 			case 'pe':
 				return this.setState({
-				pe: value
+					pe: value
 				});
 			case 'visit_date':
 				return this.setState({
-				visit_date: value
+					visit_date: value
 				});
 			default:
 				return null;
-		}  
+		}
 	};
 
 	handleSearch = async (e, d) => {
@@ -138,23 +151,25 @@ class Chart extends React.Component {
 		}
 	};
 
-	// diagnosisOptions = () => {
-	// 	// this.state.assessment
-	// 	const options = this.state.assessment.concat(this.state.icd_11);
-	// 	return options;
-  // };
-  
-  deleteList = (a) => {
-    this.setState({
-      assessment: this.state.assessment.filter(each => each !== a )
-    })
-  }
+	deleteList = (a) => {
+		this.setState({
+			assessment: this.state.assessment.filter((each) => each !== a)
+		});
+	};
 
 	assessmentList = () => {
 		return (
 			<List celled horizontal>
 				{this.state.assessment.map((a) => {
-					return <List.Item> <List.Icon name='times' onClick={() => this.deleteList(a)}/><span><List.Content>{a.title} </List.Content></span></List.Item>;
+					return (
+						<List.Item>
+							{' '}
+							<List.Icon name="times" onClick={() => this.deleteList(a)} />
+							<span>
+								<List.Content>{a.title} </List.Content>
+							</span>
+						</List.Item>
+					);
 				})}
 			</List>
 		);
@@ -162,34 +177,23 @@ class Chart extends React.Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-    const { hpi, ros, pe, visit_date } = this.state;
-    const sp_chief_complaint_id = this.props.patient.id
-		// fetch(url + 'icd_11', {
-		//   method: 'POST',
-		//   headers: {
-		//     'content-type': 'application/json',
-		//     accept: 'application/json',
-		//     Authorization: 'Bearer ' + localStorage.token
-		//   },
-		//   body: JSON.stringify({ hpi, ros, pe })
-		// })
-		// .then(resp => resp.json)
-		// .then(data => {
-		//   const icd_11_id = data;
-		  fetch(url + 'sp_charts', {
-		    method: 'POST',
-		    headers: {
-		      'content-type': 'application/json',
-		      accept: 'application/json',
-		      Authorization: 'Bearer ' + localStorage.token
-		    },
-		    body: JSON.stringify({ sp_chart: { hpi, ros, pe, sp_chief_complaint_id, visit_date}})
-		  })
-      .then((resp) => {
+		const { hpi, ros, pe, visit_date } = this.state;
+		const sp_chief_complaint_id = this.props.patient.id;
+
+		fetch(url + 'sp_charts', {
+			method: 'POST',
+			headers: {
+				'content-type': 'application/json',
+				accept: 'application/json',
+				Authorization: 'Bearer ' + localStorage.token
+			},
+			body: JSON.stringify({ sp_chart: { hpi, ros, pe, sp_chief_complaint_id, visit_date } })
+		})
+			.then((resp) => {
 				if (!resp.ok) {
 					console.log('resp is not okay');
 					this.setState({
-                        error: true
+						error: true
 					});
 				} else {
 					console.log('resp is ok', resp);
@@ -205,11 +209,33 @@ class Chart extends React.Component {
 							error_msg: data.error
 						});
 					} else {
-            this.props.checkout();
+						this.postIcd11(data.id) 
+						this.props.checkout();
 						this.props.history.push('/');
 					}
 				}
 			});
+	};
+
+	postIcd11 = (sp_chart_id) => {
+		this.state.assessment.map((icd) => {
+			const title = icd.text;
+			const icd_11_api_id = icd.id;
+
+			fetch(url + 'icd_11', {
+				method: 'POST',
+				headers: {
+					'content-type': 'application/json',
+					accept: 'application/json',
+					Authorization: 'Bearer ' + localStorage.token
+				},
+				body: JSON.stringify({ title, icd_11_api_id, sp_chart_id })
+			})
+				.then((resp) => resp.json)
+				.then((data) => {
+					console.log(data);
+				});
+		});
 	};
 
 	gender = (gender) => {
@@ -254,15 +280,15 @@ class Chart extends React.Component {
 	roomPatient = (e, d) => {
 		const patient = d.options.filter((pt) => pt.value === d.value);
 		this.props.roomPatient(patient[0]);
-  };
-  
-  modalAssessment = () => {
-    const contents = this.state.assessment.map( item => {
-      return <List.Content key="item.id">{item.title}</List.Content>
-    })
-    console.log("mapped assessment to contents:", contents)
-    return contents 
-  }
+	};
+
+	modalAssessment = () => {
+		const contents = this.state.assessment.map((item) => {
+			return <List.Content key="item.id">{item.title}</List.Content>;
+		});
+		console.log('mapped assessment to contents:', contents);
+		return contents;
+	};
 
 	render() {
 		const tempDrug = [
@@ -333,14 +359,18 @@ class Chart extends React.Component {
 						</Card.Content>
 					</Card>
 
-
-          <Input className="chartDate" type="date" name="visit_date" onChange={(e, d) => this.handleChange(e, d)} />
+					<Input
+						className="chartDate"
+						type="date"
+						name="visit_date"
+						onChange={(e, d) => this.handleChange(e, d)}
+					/>
 					<Form onSubmit={this.handleSubmit} className="chartgrid">
 						<Form.Group className="hpi">
 							<Form.TextArea
 								disabled={this.props.patient ? false : true}
-                label="hpi"
-                name="hpi"
+								label="hpi"
+								name="hpi"
 								placeholder=""
 								onChange={(e, d) => this.handleChange(e, d)}
 							/>
@@ -357,8 +387,8 @@ class Chart extends React.Component {
 						<Form.Group className="pe">
 							<Form.TextArea
 								disabled={this.props.patient ? false : true}
-                label="pe"
-                name="pe"
+								label="pe"
+								name="pe"
 								placeholder=""
 								onChange={this.handleChange}
 							/>
@@ -374,11 +404,11 @@ class Chart extends React.Component {
 									onChange={this.handleSearch}
 								/>
 								<Icon
-                  name='search'
+									name="search"
 									size="large"
 									className="diagnosisSearch"
-                  // icon={<Icon name="search" />}
-                  onClick={(e, d) => this.searchICD11(e, d)}
+									// icon={<Icon name="search" />}
+									onClick={(e, d) => this.searchICD11(e, d)}
 								/>
 							</div>
 
@@ -419,38 +449,47 @@ class Chart extends React.Component {
 							Sign off
 						</Button> */}
 					</Form>
-          <Modal size="small" trigger={<Button className="signoff" disabled={this.props.patient ? false : true}>Confirm</Button>}>
-				<Modal.Header>
-					{this.state.first_name} {this.state.last_name}
-				</Modal.Header>
-				<Modal.Content image>
-					<Image wrapped size="small" src={`https://react.semantic-ui.com/images/${this.gender(this.ptEmpty('gender'))}`} />
-					<Modal.Description>
-            <Header>{this.props.patient.chief_complaint}</Header>
-						<List divided relaxed>
-
-							<List.Item icon="calendar" content={this.state.visit_date} />
-							<List.Item icon="history" content={this.state.hpi} />
-							<List.Item icon="user" content={this.state.ros} />
-							<List.Item icon="stethoscope" content={this.state.pe} />
-							<List.Item icon="user md" content={this.modalAssessment()} />
-							<List.Item icon="pills" content="" />
-
-						</List>
-					</Modal.Description>
-					{this.state.error ? (
-						<Message
-							className="chart error"
-							error
-							header="Action Forbidden"
-							content={this.state.error_msg}
-						/>
-					) : null}
-				</Modal.Content>
-				<Modal.Actions>
-					<Button onClick={this.handleSubmit}>Sign Off</Button>
-				</Modal.Actions>
-			</Modal>
+					<Modal
+						size="small"
+						trigger={
+							<Button className="signoff" disabled={this.props.patient ? false : true}>
+								Confirm
+							</Button>
+						}
+					>
+						<Modal.Header>
+							{this.state.first_name} {this.state.last_name}
+						</Modal.Header>
+						<Modal.Content image>
+							<Image
+								wrapped
+								size="small"
+								src={`https://react.semantic-ui.com/images/${this.gender(this.ptEmpty('gender'))}`}
+							/>
+							<Modal.Description>
+								<Header>{this.props.patient.chief_complaint}</Header>
+								<List divided relaxed>
+									<List.Item icon="calendar" content={this.state.visit_date} />
+									<List.Item icon="history" content={this.state.hpi} />
+									<List.Item icon="user" content={this.state.ros} />
+									<List.Item icon="stethoscope" content={this.state.pe} />
+									<List.Item icon="user md" content={this.modalAssessment()} />
+									<List.Item icon="pills" content="" />
+								</List>
+							</Modal.Description>
+							{this.state.error ? (
+								<Message
+									className="chart error"
+									error
+									header="Action Forbidden"
+									content={this.state.error_msg}
+								/>
+							) : null}
+						</Modal.Content>
+						<Modal.Actions>
+							<Button onClick={this.handleSubmit}>Sign Off</Button>
+						</Modal.Actions>
+					</Modal>
 					<div className="barGrid">
 						<NavBarOpener />
 					</div>

@@ -83,9 +83,6 @@ class Home extends React.Component {
 			});
 	};
 
-	// selectCC = async (data) => {
-	// 	this.props.selectCC(data)
-	// }
 
 	fetchCharts = async (data) => {
 		await this.props.selectCC(data);
