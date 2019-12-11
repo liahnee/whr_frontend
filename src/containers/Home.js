@@ -58,7 +58,7 @@ class Home extends React.Component {
 
 	handleAddCC = (row) => {
 		this.props.selectForCC(row._original);
-		this.toggle();
+		this.toggleCC();
 	};
 
 	handleRenderCC = async (row) => {
