@@ -57,9 +57,9 @@ class App extends React.Component {
 				}
 			})
 				.then((resp) => resp.json())
-				.then((data) => this.props.addAllPatients(data))
-		} 
-	}
+				.then((data) => this.props.addAllPatients(data));
+		}
+	};
 
 	render() {
 		return (
@@ -107,53 +107,53 @@ class App extends React.Component {
 								Room
 							</Menu.Item>
 						)}
-						
+
 						<Menu.Item as={Link} to="/new_patient">
 							<Icon name="add user" />
 							New Pt
 						</Menu.Item>
+						{/* <Popup
+							// offset="0, 200px"
+							pinned={true}
+							hoverable
+							on="hover"
+							trigger={
+								<Menu.Item as={Link} to="/schedule">
+									<Icon name="calendar alternate outline" />
+									Follow Up
+								</Menu.Item>
+							}
+							content="In development. Monthly schedule for the patients to be scheduled."
+							style={{
+								bordeRadius: 5,
+								opacity: 0.7,
+								padding: '2em',
+								position: 'fixed',
+								marginTop: '50px'
+							}}
+							inverted
+						/> */}
 						<Popup
-								// offset="0, 200px"
-								pinned={true}
-								hoverable
-								on="hover"
-								trigger={
-						<Menu.Item as={Link} to="/schedule">
-							<Icon name="calendar alternate outline" />
-							Follow Up
-						</Menu.Item>
-						}
-						content='In development. Monthly schedule for the patients to be scheduled.'
-						style={{
-							bordeRadius: 5,
-							opacity: 0.7,
-							padding: '2em',
-							position: 'fixed',
-							marginTop: '50px'
-						}}
-						inverted
-					/>
-					<Popup
-								// offset="0, 200px"
-								pinned={true}
-								hoverable
-								on="hover"
-								trigger={
-						<Menu.Item as={Link} to="/profile">
-							<Icon name="user md" />
-							Profile
-						</Menu.Item>
-					}
-						content='In development. Can delete patients here. Can change your profile pic, names, etc.'
-						style={{
-							bordeRadius: 5,
-							opacity: 0.7,
-							padding: '2em',
-							position: 'fixed',
-							marginTop: '50px'
-						}}
-						inverted
-					/>
+							// offset="0, 200px"
+							pinned={true}
+							hoverable
+							on="hover"
+							trigger={
+								<Menu.Item as={Link} to="/profile">
+									<Icon name="user md" />
+									Profile
+								</Menu.Item>
+							}
+							content="In development. Can delete patients here. Can change your profile pic, names, etc."
+							style={{
+								bordeRadius: 5,
+								opacity: 0.7,
+								padding: '2em',
+								position: 'fixed',
+								marginTop: '50px'
+							}}
+							inverted
+						/>
 						<Menu.Item onClick={() => this.handleLogout()} position="right">
 							<Icon name="sign out" />
 							Sign-out
@@ -161,6 +161,7 @@ class App extends React.Component {
 					</Sidebar>
 				) : null}
 				<Sidebar.Pusher dimmed={this.props.show}>
+					
 					<Route exact path="/">
 						{this.props.loggedin ? <Home updatePatientList={this.updatePatientList} /> : this.logged()}
 					</Route>
@@ -180,8 +181,9 @@ class App extends React.Component {
 						{!this.props.room ? <Redirect to="/" /> : <Chart />}
 					</Route>
 					<Route exact path="/new_patient">
-						<NewPatientForm updatePatientList={this.updatePatientList}/>
+						<NewPatientForm updatePatientList={this.updatePatientList} />
 					</Route>
+					<Route path="*" render={() => <div>Page Not Found</div>}/>
 				</Sidebar.Pusher>
 			</Sidebar.Pushable>
 		);
