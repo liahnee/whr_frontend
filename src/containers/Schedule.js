@@ -1,10 +1,11 @@
 import React from 'react';
 import '../assets/stylesheets/Schedule.css';
+
 import { connect } from 'react-redux';
+
 import NavBarOpener from '../componentsNavBar/NavBarOpener';
 import LoggedInHOC from '../HOC/SignedIn';
-// import ReactTable from 'react-table';
-// import { Icon } from 'semantic-ui-react';
+
 
 const url = 'http://localhost:3000/api/v1/';
 

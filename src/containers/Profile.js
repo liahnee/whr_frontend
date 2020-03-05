@@ -1,7 +1,10 @@
 import React from 'react';
+
 import { connect } from 'react-redux';
+
 import NavBarOpener from '../componentsNavBar/NavBarOpener';
 import LoggedInHOC from '../HOC/SignedIn';
+
 const Profile = () => {
     return (
         <div className="profile">

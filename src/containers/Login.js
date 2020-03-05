@@ -1,7 +1,9 @@
 import React from 'react';
+
 import { Form, Input, Button, Label, Message } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
+
 import SignUp from '../componentsHome/SignUp';
 
 const url = 'http://localhost:3000/api/v1/';

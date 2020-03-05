@@ -1,7 +1,7 @@
 import React from 'react';
+
 import { Modal, Form, Header, Input, Button, Message } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import '../home.css'
 
 class NewCC extends React.Component {
 	state = {};

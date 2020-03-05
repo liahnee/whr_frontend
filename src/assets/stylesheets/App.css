@@ -34,7 +34,7 @@ html, body {
 }
 
 .signin {
-  background-image: url('assets/bg3.1.4.jpg');
+  background-image: url('../bg3.1.4.jpg');
   background-size: cover;
   height: 100vh;
   background-repeat: no-repeat;
@@ -189,7 +189,7 @@ margin-left: 24vw;
 
 
 .dashboard {
-  background-image: url('./assets/pill1.02.jpg');
+  background-image: url('../pill1.02.jpg');
   background-size: cover;
   transition: 1s;
 }
@@ -242,7 +242,7 @@ margin-left: 24vw;
 } */
 
 .homePG {
-  background-image: url('assets/w.jpg');
+  background-image: url('../w.jpg');
   background-size: cover;
   height: 100vh;
   background-repeat: no-repeat;
@@ -251,7 +251,7 @@ margin-left: 24vw;
 }
 
 .profile {
-  background-image: url('assets/w.jpg');
+  background-image: url('../w.jpg');
   background-size: cover;
   height: 100vh;
   background-repeat: no-repeat;
@@ -260,7 +260,7 @@ margin-left: 24vw;
 }
 
 .schedule {
-  background-image: url('assets/w.jpg');
+  background-image: url('../w.jpg');
   background-size: cover;
   height: 100vh;
   background-repeat: no-repeat;
@@ -269,7 +269,7 @@ margin-left: 24vw;
 }
 
 .chart {
-  background-image: url('assets/w.jpg');
+  background-image: url('../w.jpg');
   background-size: cover;
   height: 100vh;
   background-repeat: no-repeat;
@@ -278,7 +278,7 @@ margin-left: 24vw;
 }
 
 .newPatientForm {
-  background-image: url('assets/w.jpg');
+  background-image: url('../w.jpg');
   background-size: cover;
   min-height: 100vh;
   background-repeat: no-repeat;
@@ -301,7 +301,7 @@ margin-left: 24vw;
 }
 
 #signup {
-  background-image: url('./assets//ww2.jpg');
+  background-image: url('../ww2.jpg');
   background-size: cover;
 }
 

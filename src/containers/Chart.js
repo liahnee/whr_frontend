@@ -1,7 +1,7 @@
 import React from 'react';
+import '../assets/stylesheets/chart.css';
+
 import { connect } from 'react-redux';
-import NavBarOpener from '../componentsNavBar/NavBarOpener';
-import LoggedInHOC from '../HOC/SignedIn';
 import { withRouter } from 'react-router-dom';
 import {
 	Form,
@@ -17,9 +17,9 @@ import {
 	Message,
 	Header
 } from 'semantic-ui-react';
-import '../chart.css';
-// import { defaultCipherList } from 'constants';
-// import { thisExpression } from '@babel/types';
+
+import NavBarOpener from '../componentsNavBar/NavBarOpener';
+import LoggedInHOC from '../HOC/SignedIn';
 
 const url = 'http://localhost:3000/api/v1/';
 

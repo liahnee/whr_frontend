@@ -1,10 +1,12 @@
 import React from 'react';
-import '../newpt.css';
+import '../assets/stylesheets/newpt.css';
+
 import { connect } from 'react-redux';
-import NavBarOpener from '../componentsNavBar/NavBarOpener';
-import LoggedInHOC from '../HOC/SignedIn';
 import { withRouter } from 'react-router-dom';
 import { Form, Dropdown, Checkbox, Input, Button, Modal, Image, List, Divider, Message } from 'semantic-ui-react';
+
+import NavBarOpener from '../componentsNavBar/NavBarOpener';
+import LoggedInHOC from '../HOC/SignedIn';
 
 class NewPatientForm extends React.Component {
 	state = {

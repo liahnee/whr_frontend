@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './assets/stylesheets/App.css';
 
 import { Menu, Sidebar, Icon, Popup } from 'semantic-ui-react';
 import { Route, Link, Redirect, withRouter } from 'react-router-dom';

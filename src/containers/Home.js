@@ -1,8 +1,10 @@
 import React from 'react';
-import '../home.css';
+import '../assets/stylesheets/home.css';
+
 import { Icon, Popup, Modal, Header, Button, List } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 // import { Link } from 'react-router-dom';
+
 import NavBarOpener from '../componentsNavBar/NavBarOpener';
 import ReactTable from 'react-table';
 import NewCC from '../componentsHome/NewCC';

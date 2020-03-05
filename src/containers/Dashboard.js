@@ -1,8 +1,9 @@
 import React from 'react';
+
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
-// import { Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+
 import dashboardBg from '../assets/pill1.02.jpg'
 import stethoscopeBG from '../assets/pill1.11.jpg';
 import examRoomBG from '../assets/pill1.21.jpg';
