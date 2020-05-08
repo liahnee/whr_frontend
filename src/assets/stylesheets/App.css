@@ -8,25 +8,6 @@ html, body {
   text-align: center;
 }
 
-/* .App-logo {
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #09d3ac;
-} */
-
 .home, .dashboard, .chart, .schedule, .profile, .newPatientForm {
   height: 100vh;
   width: 100vw;
@@ -145,7 +126,6 @@ margin-left: 24vw;
 }
 
 #signupBtn {
-
   margin-top: 2vh;
 }
 
@@ -300,19 +280,13 @@ margin-left: 24vw;
   margin-bottom: 8vh;
 }
 
-#signup {
-  background-image: url('../ww2.jpg');
-  background-size: cover;
-}
 
-#signup .ui.header {
-  background: none !important;
-  color: white;
+#signup-form {
+  padding: 1rem;
 }
 
 #signup .content, .actions{
   background: none !important;
-  color: white;
 }
 
 #signup i.icon:hover {

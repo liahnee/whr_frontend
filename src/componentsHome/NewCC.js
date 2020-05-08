@@ -35,7 +35,7 @@ class NewCC extends React.Component {
 	render() {
 		return (
 			<Modal dimmer={true} size="small" open={this.props.open} onClose={this.props.toggle} closeIcon id="signup">
-				<Header />
+				
 				<Modal.Content>
 					<Form error>
 						<Form.Field inline>
@@ -51,10 +51,8 @@ class NewCC extends React.Component {
 							/>
 						) : null}
 					</Form>
+					<Button id='newCC-confirm-btn' onClick={this.postCC}>Confirm</Button>
 				</Modal.Content>
-				<Modal.Actions>
-					<Button onClick={this.postCC}>Confirm</Button>
-				</Modal.Actions>
 			</Modal>
 		);
 	}

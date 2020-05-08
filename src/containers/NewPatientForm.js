@@ -263,7 +263,7 @@ class NewPatientForm extends React.Component {
 			<React.Fragment>
 				<div className="newPatientForm">
 					<div className="newPatientFormSection">
-						<Form error onSubmit={this.handleSubmit}>
+						<Form error onSubmit={this.handleSubmit} className="newPtForm">
 							<Form.Group widths="equal">
 								<Form.Input
 									fluid

@@ -9,7 +9,8 @@ class SignUp extends React.Component {
         username: '',
         password: '',
         name: '',
-        showPassword: 'password'
+        showPassword: 'password',
+        passwordIcon: 'eye slash outline'
         // signUp: false
     }
 
@@ -88,15 +89,16 @@ class SignUp extends React.Component {
     }
 
     showPassword = () => {
-        console.log('icon clicked')
         switch(this.state.showPassword){
             case 'password':
                 return this.setState({
-            showPassword: 'text'
+            showPassword: 'text',
+            passwordIcon: 'eye'
         })
             case 'text':
                 return this.setState({
-                    showPassword: 'password'
+                    showPassword: 'password',
+                    passwordIcon: 'eye slash outline'
                 })
                 default:
                     return null
@@ -108,14 +110,15 @@ class SignUp extends React.Component {
             <Modal dimmer={true} size='mini' open={this.props.open} onClose={this.props.toggle} closeIcon id="signup">
                 <Header>Sign Up</Header>
                 <Modal.Content>
-                    <Form error>
+                    <Form error id="signup-form">
                         <Form.Field inline>
                             
                             <Input icon='user' iconPosition='left' placeholder='Username' onChange={this.handleUsername}/>
                         </Form.Field>
                         <Form.Field inline>
                             <Input icon='lock' iconPosition='left' type={this.state.showPassword} placeholder='Password' onChange={this.handlePassword}/>
-                            <Icon name='eye' onClick={this.showPassword}/>
+                            <Icon name={this.state.passwordIcon} onClick={this.showPassword}/>
+                           
                         </Form.Field>
                         <Form.Field inline>
                             <Input icon='user circle' iconPosition='left' placeholder='Display Name' onChange={this.handleName}/><br/>

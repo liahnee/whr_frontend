@@ -276,9 +276,9 @@ class Home extends React.Component {
 									</List>
 								</Modal.Description>
 							</Modal.Content>
-							<Modal.Actions>
+							{/* <Modal.Actions>
 								<Button>Confirm</Button>
-							</Modal.Actions>
+							</Modal.Actions> */}
 						</Modal>
 					);
 				}
@@ -326,6 +326,7 @@ class Home extends React.Component {
 							);
 						}}
 					/>
+					<></>
 					<ReactTable
 						className="scheduleList"
 						data={this.props.selectedForSchedule}

@@ -91,6 +91,7 @@
   width: 80% !important;
 }
 
-#cc .ui.input input {
-  background: grey;
+#newCC-confirm-btn {
+  position: relative;
+  right: 0;
 }

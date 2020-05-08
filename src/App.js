@@ -2,7 +2,7 @@ import React from 'react';
 import './assets/stylesheets/App.css';
 
 import { Menu, Sidebar, Icon, Popup } from 'semantic-ui-react';
-import { Route, Link, Redirect, withRouter } from 'react-router-dom';
+import { Route, Link, Redirect, withRouter, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Login from './containers/Login';
@@ -133,7 +133,7 @@ class App extends React.Component {
 							}}
 							inverted
 						/> */}
-						<Popup
+						{/* <Popup
 							// offset="0, 200px"
 							pinned={true}
 							hoverable
@@ -153,7 +153,7 @@ class App extends React.Component {
 								marginTop: '50px'
 							}}
 							inverted
-						/>
+						/> */}
 						<Menu.Item onClick={() => this.handleLogout()} position="right">
 							<Icon name="sign out" />
 							Sign-out
@@ -161,29 +161,30 @@ class App extends React.Component {
 					</Sidebar>
 				) : null}
 				<Sidebar.Pusher dimmed={this.props.show}>
-					
-					<Route exact path="/">
-						{this.props.loggedin ? <Home updatePatientList={this.updatePatientList} /> : this.logged()}
-					</Route>
-					<Route exact path="/login">
-						<Login />
-					</Route>
-					<Route exact path="/dashboard">
-						<Dashboard />
-					</Route>
-					<Route exact path="/profile">
-						<Profile />
-					</Route>
-					<Route exact path="/schedule">
-						<Schedule />
-					</Route>
-					<Route exact path="/room">
-						{!this.props.room ? <Redirect to="/" /> : <Chart />}
-					</Route>
-					<Route exact path="/new_patient">
-						<NewPatientForm updatePatientList={this.updatePatientList} />
-					</Route>
-					<Route path="*" render={() => <div>Page Not Found</div>}/>
+					<Switch>
+						<Route exact path="/">
+							{this.props.loggedin ? <Home updatePatientList={this.updatePatientList} /> : this.logged()}
+						</Route>
+						<Route exact path="/login">
+							<Login />
+						</Route>
+						<Route exact path="/dashboard">
+							<Dashboard />
+						</Route>
+						{/* <Route exact path="/profile">
+							<Profile />
+						</Route> */}
+						<Route exact path="/schedule">
+							<Schedule />
+						</Route>
+						<Route exact path="/room">
+							{!this.props.room ? <Redirect to="/" /> : <Chart />}
+						</Route>
+						<Route exact path="/new_patient">
+							<NewPatientForm updatePatientList={this.updatePatientList} />
+						</Route>
+						<Route render={() => <div>Page Not Found</div>} />
+					</Switch>
 				</Sidebar.Pusher>
 			</Sidebar.Pushable>
 		);
