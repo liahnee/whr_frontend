@@ -6,7 +6,7 @@ import { Redirect, withRouter } from 'react-router-dom';
 
 import SignUp from '../componentsHome/SignUp';
 
-const url ='https://immense-thicket-18399.herokuapp.com/' +  '/api/v1/';
+const url ='https://cors-anywhere.herokuapp.com/https://immense-thicket-18399.herokuapp.com/' +  '/api/v1/';
 
 class Signin extends React.Component {
 
