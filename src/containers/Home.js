@@ -9,7 +9,7 @@ import NavBarOpener from '../componentsNavBar/NavBarOpener';
 import ReactTable from 'react-table';
 import NewCC from '../componentsHome/NewCC';
 
-const url = 'http://localhost:3000/api/v1/';
+const url ='https://immense-thicket-18399.herokuapp.com/' +  '/api/v1/';
 
 class Home extends React.Component {
 	state = {

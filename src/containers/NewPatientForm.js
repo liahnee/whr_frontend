@@ -8,7 +8,7 @@ import { Form, Dropdown, Checkbox, Input, Button, Modal, Image, List, Divider, M
 import NavBarOpener from '../componentsNavBar/NavBarOpener';
 import LoggedInHOC from '../HOC/SignedIn';
 
-const url = 'http://localhost:3000/api/v1/'
+const url ='https://immense-thicket-18399.herokuapp.com/' +  '/api/v1/';
 
 class NewPatientForm extends React.Component {
 	state = {

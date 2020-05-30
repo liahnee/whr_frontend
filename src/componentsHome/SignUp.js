@@ -3,7 +3,7 @@ import { Modal, Form, Header, Input, Button, Message, Icon } from 'semantic-ui-r
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-const url = 'http://localhost:3000/api/v1/';
+const url ='https://immense-thicket-18399.herokuapp.com/' +  '/api/v1/';
 
 class SignUp extends React.Component {
 
