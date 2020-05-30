@@ -3,6 +3,8 @@ import React from 'react';
 import { Modal, Form, Header, Input, Button, Message } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
+const url = 'http://localhost:3000/api/v1/';
+
 class NewCC extends React.Component {
 	state = {};
 
@@ -10,7 +12,7 @@ class NewCC extends React.Component {
 		const { chief_complaint } = this.state;
 		const single_player_patient = this.props.patient.id;
 		const recovery_rate = 0
-		fetch('http://localhost:3000/api/v1/sp_chief_complaints', {
+		fetch(url + 'sp_chief_complaints', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

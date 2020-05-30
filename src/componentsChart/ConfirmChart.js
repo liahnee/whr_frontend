@@ -3,12 +3,14 @@ import { Modal, Form, Header, Input, Button, Message, Icon } from 'semantic-ui-r
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
+const url = 'http://localhost:3000/api/v1/';
+
 class SignUp extends React.Component {
 
 	signUp = async (e) => {
 		// e.preventDefault();
 		const { username, password, name } = this.state;
-		await fetch('http://localhost:3000/api/v1/users', {
+		await fetch(url + 'users', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -29,7 +31,7 @@ class SignUp extends React.Component {
 
 	signoff = () => {
 		const { username, password } = this.state;
-		fetch('http://localhost:3000/api/v1/l', {
+		fetch(url + 'login', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

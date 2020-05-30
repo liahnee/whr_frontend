@@ -8,6 +8,8 @@ import { Form, Dropdown, Checkbox, Input, Button, Modal, Image, List, Divider, M
 import NavBarOpener from '../componentsNavBar/NavBarOpener';
 import LoggedInHOC from '../HOC/SignedIn';
 
+const url = 'http://localhost:3000/api/v1/'
+
 class NewPatientForm extends React.Component {
 	state = {
 		// first_name: '',
@@ -150,7 +152,7 @@ class NewPatientForm extends React.Component {
 			finance
 		} = this.state;
 
-		fetch('http://localhost:3000/api/v1/single_player_patients', {
+		fetch(url + 'single_player_patients', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
