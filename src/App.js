@@ -13,7 +13,7 @@ import Dashboard from './containers/Dashboard';
 import NewPatientForm from './containers/NewPatientForm';
 import Home from './containers/Home';
 
-const url = 'http://localhost:3000/api/v1/';
+const url ='https://immense-thicket-18399.herokuapp.com/' +  '/api/v1/';
 
 class App extends React.Component {
 	logged() {

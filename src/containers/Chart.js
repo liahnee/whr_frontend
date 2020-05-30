@@ -21,7 +21,7 @@ import {
 import NavBarOpener from '../componentsNavBar/NavBarOpener';
 import LoggedInHOC from '../HOC/SignedIn';
 
-const url = 'http://localhost:3000/api/v1/';
+const url ='https://immense-thicket-18399.herokuapp.com/' +  '/api/v1/';
 
 const renderFetch = (data) => {
 	const newData = [];

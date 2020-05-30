@@ -3,7 +3,7 @@ import React from 'react';
 import { Modal, Form, Header, Input, Button, Message } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
-const url = 'http://localhost:3000/api/v1/';
+const url ='https://immense-thicket-18399.herokuapp.com/' +  '/api/v1/';
 
 class NewCC extends React.Component {
 	state = {};

@@ -6,7 +6,7 @@ import { Redirect, withRouter } from 'react-router-dom';
 
 import SignUp from '../componentsHome/SignUp';
 
-const url = 'http://localhost:3000/api/v1/login';
+const url ='https://immense-thicket-18399.herokuapp.com/' +  '/api/v1/';
 
 class Signin extends React.Component {
 
@@ -32,7 +32,7 @@ class Signin extends React.Component {
     handleSubmit = async (e) => {
         e.preventDefault();
         const { username, password } = this.state;
-        await fetch( url, {
+        await fetch( url + '/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
